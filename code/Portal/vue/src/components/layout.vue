@@ -16,8 +16,8 @@
 </template>
 <style>
     .grid-content {
+        padding:24px;
         height:auto;
-        background: red;
         max-width:1024px;
         margin: 0 auto;
         position: relative;

@@ -1,16 +1,32 @@
 package com.messagecenter.service.portal;
 
+import com.messagecenter.portal.Application;
+import com.messagecenter.portal.entity.MessageQueueInfo;
+import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 public class PortalApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
+
+
+    @Autowired
+    MessageQueueInfoMapper messageQueueInfoMapper;
+
+    @Test
+    public void getMessageQueueList() {
+        List<MessageQueueInfo> messageQueueInfos = messageQueueInfoMapper.getMessageQueueInfoList();
+        System.out.print("message queue info size:" + messageQueueInfos.size());
+    }
 
 }

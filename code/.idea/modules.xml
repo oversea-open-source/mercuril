@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Client/Client.iml" filepath="$PROJECT_DIR$/Client/Client.iml" />
       <module fileurl="file://$PROJECT_DIR$/Portal/Portal.iml" filepath="$PROJECT_DIR$/Portal/Portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Portal/portal.iml" filepath="$PROJECT_DIR$/Portal/portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server.iml" filepath="$PROJECT_DIR$/Server/server.iml" />
       <module fileurl="file://$PROJECT_DIR$/Server/service.iml" filepath="$PROJECT_DIR$/Server/service.iml" />
     </modules>
   </component>

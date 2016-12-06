@@ -25,6 +25,7 @@
         <module name="API" />
         <module name="client" />
         <module name="Client" />
+        <module name="portal" />
         <module name="Portal" />
         <module name="Server" />
         <module name="server" />
@@ -33,15 +34,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="API" target="1.5" />
-      <module name="client" target="1.5" />
-      <module name="Client" target="1.5" />
-      <module name="MQ" target="1.5" />
-      <module name="Portal" target="1.5" />
-      <module name="server" target="1.5" />
-      <module name="Server" target="1.5" />
-      <module name="service" target="1.5" />
-      <module name="Service" target="1.5" />
+      <module name="Client" target="1.8" />
+      <module name="portal" target="1.8" />
+      <module name="server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

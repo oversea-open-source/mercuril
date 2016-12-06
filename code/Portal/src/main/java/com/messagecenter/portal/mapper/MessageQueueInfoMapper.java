@@ -11,4 +11,6 @@ import java.util.List;
 @Mapper
 public interface MessageQueueInfoMapper {
     List<MessageQueueInfo> getMessageQueueInfoList();
+
+    void saveMessageQueueInfoList(MessageQueueInfo messageQueueInfo);
 }

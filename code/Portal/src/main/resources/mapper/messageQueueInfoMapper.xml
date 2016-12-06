@@ -7,4 +7,39 @@
     <select id="getMessageQueueInfoList" resultType="com.messagecenter.portal.entity.MessageQueueInfo">
         SELECT * FROM MessageQueueInfo
     </select>
+    
+    <insert id="saveMessageQueueInfoList" parameterType="com.messagecenter.portal.entity.MessageQueueInfo">
+        INSERT INTO MessageQueueInfo(
+            `messageQueueName` ,
+            `summary` ,
+            `tags` ,
+            `ownerTeamName` ,
+            `publishPassword` ,
+            `maxSize` ,
+            `maxPendingLength` ,
+            `isOrderRequired` ,
+            `contactEmail` ,
+            `isActive` ,
+            `inUser` ,
+            `inDate` ,
+            `lastEditUser` ,
+            `lastEditDate`
+        )
+        VALUES
+            (
+            #{messageQueueName},
+            #{summary},
+            #{tags},
+            #{ownerTeamName},
+            #{publishPassword},
+            #{maxSize},
+            #{maxPendingLength},
+            #{isOrderRequired},
+            #{contactEmail},
+            #{isActive},
+            #{inUser},
+            #{inDate},
+            #{lastEditUser},
+            #{lastEditDate})
+    </insert>
 </mapper>

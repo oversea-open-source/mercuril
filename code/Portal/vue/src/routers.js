@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import indexPage from './views/index.vue';
+import createMessagePage from './views/create_message.vue';
 
 Vue.use(Router);
 
@@ -11,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '',
-      component: indexPage
+      component: createMessagePage
     }
   ]
 });

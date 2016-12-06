@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="14">
 
-          <el-form class="create-form" label-width="240px">
+          <el-form class="create-form" label-width="240px" v-loading:body="loading">
             <el-form-item label="Message Queue Name:">
               <el-input v-model="name" placeholder="Message Queue Name"></el-input>
             </el-form-item>
@@ -35,7 +35,7 @@
               <el-switch on-text="" off-text="" v-model="isOrderRequired"></el-switch>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">Save</el-button>
+              <el-button type="primary" @click="saveMessage">Save</el-button>
             </el-form-item>
 
           </el-form>
@@ -62,12 +62,21 @@
               contactEmail:'',
               tags:'',
               summary:'',
-              isOrderRequired:false
+              isOrderRequired:false,
+              loading:false
             }
+        },
+        methods:{
+          saveMessage(){
+            this.loading = true;
+            this.$http.post('/api/SaveMessageQueueInfo').then((response) => {
+              this.loading = false;
+            }, (response) => {
+              this.loading = false;
+            });
+          }
         }
     }
-
-
 
 
 </script>

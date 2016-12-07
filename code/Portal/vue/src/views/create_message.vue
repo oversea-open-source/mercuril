@@ -88,7 +88,7 @@
             }, (response) => {
               this.loading = false;
               this.$message({
-                message:'系统发生异常',
+                message:'API error',
                 type:'error'
               })
             });

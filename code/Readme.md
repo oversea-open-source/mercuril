@@ -9,3 +9,5 @@
 2.Portal 项目端口 8081
 3.Sever 项目端口 8082
 
+使用Lombok来生成实体的getter/setter/toString/hashcode方法
+1.IntelliJ idea需要安装lombok插件(https://github.com/mplushnikov/lombok-intellij-plugin),请参考链接中的步骤进行配置

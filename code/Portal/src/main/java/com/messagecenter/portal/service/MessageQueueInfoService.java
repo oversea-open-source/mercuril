@@ -30,6 +30,7 @@ public class MessageQueueInfoService {
             messageQueueInfo.setInDate(new Date());
             messageQueueInfo.setLastEditDate(new Date());
             messageQueueInfo.setLastEditUser(Const.IN_USER_NAME);
+            messageQueueInfo.setActive(true);
             messageQueueInfoMapper.saveMessageQueueInfoList(messageQueueInfo);
         } else {
             throw new BusinessException("Message queue with same name already exists");

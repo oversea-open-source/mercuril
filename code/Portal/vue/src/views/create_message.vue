@@ -16,7 +16,8 @@
             </el-form-item>
 
             <el-form-item label="Send message with password?">
-              <el-switch on-text="" off-text="" v-model="form.usePassword"></el-switch>
+              <el-switch on-text="" off-text="" v-model="usePassword"></el-switch>
+              <el-input v-if="usePassword" type="password" v-model="form.publishPassword" placeholder="Publish password"></el-input>
             </el-form-item>
             <el-form-item label="Owner Team">
               <el-input v-model="form.ownerTeamName" placeholder="Owner Team Name"></el-input>
@@ -58,13 +59,14 @@
                 messageQueueName:'',
                 maxSize:'',
                 maxPendingLength:'',
-                usePassword:false,
+                publishPassword:'',
                 ownerTeamName:'',
                 contactEmail:'',
                 tags:'',
                 summary:'',
                 isOrderRequired:false
               },
+              usePassword:false,
               loading:false
             }
         },
@@ -95,6 +97,7 @@
           }
         }
     }
+
 
 
 

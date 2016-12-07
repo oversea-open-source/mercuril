@@ -1,5 +1,7 @@
 
 # Created by https://www.gitignore.io/api/macos
+*.iml
+
 
 ### macOS ###
 *.DS_Store

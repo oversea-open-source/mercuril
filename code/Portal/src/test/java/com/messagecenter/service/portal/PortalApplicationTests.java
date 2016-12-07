@@ -19,14 +19,4 @@ public class PortalApplicationTests {
     public void contextLoads() {
     }
 
-
-    @Autowired
-    MessageQueueInfoMapper messageQueueInfoMapper;
-
-    @Test
-    public void getMessageQueueList() {
-        List<MessageQueueInfo> messageQueueInfos = messageQueueInfoMapper.getMessageQueueInfoList();
-        System.out.print("message queue info size:" + messageQueueInfos.size());
-    }
-
 }

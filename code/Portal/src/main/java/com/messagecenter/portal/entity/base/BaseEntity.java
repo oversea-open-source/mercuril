@@ -1,5 +1,7 @@
 package com.messagecenter.portal.entity.base;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.util.Date;
 

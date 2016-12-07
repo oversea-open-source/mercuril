@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Mapper
 public interface MessageQueueInfoMapper {
-    List<MessageQueueInfo> getMessageQueueInfoList();
+    List<MessageQueueInfo> getMessageQueueInfoList(MessageQueueInfo messageQueueInfo);
 
     void saveMessageQueueInfoList(MessageQueueInfo messageQueueInfo);
 }

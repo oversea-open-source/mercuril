@@ -9,15 +9,16 @@
               <el-input v-model="form.messageQueueName" placeholder="Message Queue Name"></el-input>
             </el-form-item>
             <el-form-item label="Max Message Size(kb):">
-              <el-input v-model="form.maxSize" placeholder="Max message size"></el-input>
+              <el-input type="number" v-model="form.maxSize" placeholder="Max message size"></el-input>
             </el-form-item>
             <el-form-item label="Max pending length:">
-              <el-input v-model="form.maxPendingLength" placeholder="Max pending length"></el-input>
+              <el-input type="number" v-model="form.maxPendingLength" placeholder="Max pending length"></el-input>
             </el-form-item>
 
             <el-form-item label="Send message with password?">
               <el-switch on-text="" off-text="" v-model="usePassword"></el-switch>
-              <el-input v-if="usePassword" type="password" v-model="form.publishPassword" placeholder="Publish password"></el-input>
+              <el-input v-if="usePassword" type="password" v-model="form.publishPassword"
+                        placeholder="Publish password"></el-input>
             </el-form-item>
             <el-form-item label="Owner Team">
               <el-input v-model="form.ownerTeamName" placeholder="Owner Team Name"></el-input>
@@ -56,14 +57,14 @@
         data(){
             return {
               form:{
-                messageQueueName:'',
-                maxSize:'',
-                maxPendingLength:'',
-                publishPassword:'',
-                ownerTeamName:'',
-                contactEmail:'',
-                tags:'',
-                summary:'',
+                messageQueueName:null,
+                maxSize:null,
+                maxPendingLength:null,
+                publishPassword:null,
+                ownerTeamName:null,
+                contactEmail:null,
+                tags:null,
+                summary:null,
                 isOrderRequired:false
               },
               usePassword:false,
@@ -97,6 +98,7 @@
           }
         }
     }
+
 
 
 

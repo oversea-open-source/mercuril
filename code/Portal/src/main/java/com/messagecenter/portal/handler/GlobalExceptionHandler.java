@@ -3,6 +3,7 @@ package com.messagecenter.portal.handler;
 import com.messagecenter.portal.entity.base.BaseResponse;
 import com.messagecenter.portal.entity.base.StatusCode;
 import com.messagecenter.portal.exception.BusinessException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -55,6 +56,14 @@ public class GlobalExceptionHandler {
         BaseResponse response = new BaseResponse();
         response.setCode(StatusCode.ERROR);
         response.setMessage(exception.getMessage());
+        return response;
+    }
+
+    @ExceptionHandler(value = HttpMessageNotReadableException.class)
+    public Object httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException exception, WebRequest request) {
+        BaseResponse response = new BaseResponse();
+        response.setCode(StatusCode.ERROR);
+        response.setMessage(exception.getCause().getMessage());
         return response;
     }
 }

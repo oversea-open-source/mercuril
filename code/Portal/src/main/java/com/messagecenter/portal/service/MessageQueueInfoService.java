@@ -4,6 +4,7 @@ import com.messagecenter.portal.controller.Const;
 import com.messagecenter.portal.entity.MessageQueueInfo;
 import com.messagecenter.portal.exception.BusinessException;
 import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
+import com.messagecenter.portal.utils.EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ public class MessageQueueInfoService {
     @Autowired
     MessageQueueInfoMapper messageQueueInfoMapper;
 
+
     public void saveMessageQueueInfo(MessageQueueInfo messageQueueInfo) throws BusinessException {
 
         MessageQueueInfo query = new MessageQueueInfo();
@@ -31,6 +33,7 @@ public class MessageQueueInfoService {
             messageQueueInfo.setLastEditDate(new Date());
             messageQueueInfo.setLastEditUser(Const.IN_USER_NAME);
             messageQueueInfo.setActive(true);
+            messageQueueInfo.setPublishPassword(EncryptUtils.encrypt(messageQueueInfo.getPublishPassword()));
             messageQueueInfoMapper.saveMessageQueueInfoList(messageQueueInfo);
         } else {
             throw new BusinessException("Message queue with same name already exists");

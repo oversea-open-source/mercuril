@@ -33,7 +33,9 @@ public class MessageQueueInfoService {
             messageQueueInfo.setLastEditDate(new Date());
             messageQueueInfo.setLastEditUser(Const.IN_USER_NAME);
             messageQueueInfo.setActive(true);
-            messageQueueInfo.setPublishPassword(EncryptUtils.encrypt(messageQueueInfo.getPublishPassword()));
+            if (null != messageQueueInfo.getPublishPassword() && messageQueueInfo.getPublishPassword().length() > 0) {
+                messageQueueInfo.setPublishPassword(EncryptUtils.encrypt(messageQueueInfo.getPublishPassword()));
+            }
             messageQueueInfoMapper.saveMessageQueueInfoList(messageQueueInfo);
         } else {
             throw new BusinessException("Message queue with same name already exists");

@@ -2,9 +2,11 @@ package com.messagecenter.portal.service;
 
 import com.messagecenter.portal.controller.Const;
 import com.messagecenter.portal.entity.MessageQueueInfo;
+import com.messagecenter.portal.entity.base.PageInfoQuery;
 import com.messagecenter.portal.exception.BusinessException;
 import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
 import com.messagecenter.portal.utils.EncryptUtils;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,10 @@ public class MessageQueueInfoService {
 
     public void saveMessageQueueInfo(MessageQueueInfo messageQueueInfo) throws BusinessException {
 
-        MessageQueueInfo query = new MessageQueueInfo();
-        query.setMessageQueueName(messageQueueInfo.getMessageQueueName());
+        PageInfoQuery<MessageQueueInfo> query = new PageInfoQuery<>();
+        MessageQueueInfo queueInfo = new MessageQueueInfo();
+        queueInfo.setMessageQueueName(messageQueueInfo.getMessageQueueName());
+        query.setQuery(queueInfo);
         List<MessageQueueInfo> existInfos = messageQueueInfoMapper.getMessageQueueInfoList(query);
 
         if (existInfos == null || existInfos.size() == 0) {

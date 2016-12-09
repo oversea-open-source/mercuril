@@ -74,11 +74,11 @@
                 ],
                 maxSize:[
                   {type:'integer', message:'Max size must be a integer'},
-                  {min:1, max:2048, message:'Max size of message must between 1kb to 2048kb', trigger:'blur'}
+                  {type:'integer', min:1, max:2048, message:'Max size of message must between 1kb to 2048kb', trigger:'blur'}
                 ],
                 maxPendingLength:[
                   {type:'integer', message:'Max pending count must be a integer'},
-                  {max:2000, message:'Max pending count of message must less than 2000', trigger:'blur'}
+                  {type:'integer', max:2000, message:'Max pending count of message must less than 2000', trigger:'blur'}
                 ],
                 publishPassword:[
                   {min:6, max:20, message:'Length of password must between 6 to 20 characters', trigger:'blur'}

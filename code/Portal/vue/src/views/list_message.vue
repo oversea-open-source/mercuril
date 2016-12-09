@@ -2,7 +2,7 @@
   <layout>
     <template slot="content">
       <div>
-        <el-table :data="messageList">
+        <el-table :data="messageList" v-loading:body="loading">
           <el-table-column
             prop="messageQueueName"
             label="Message Queue Name">
@@ -25,48 +25,88 @@
           </el-table-column>
         </el-table>
       </div>
-      <div>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
-          layout="sizes, prev, pager, next"
-          :total="1000">
-        </el-pagination>
-      </div>
+      <el-row type="flex" class="paginate-row" justify="end">
+        <el-col :span="6">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPageNum"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="currentPageSize"
+            layout="sizes, prev, pager, next"
+            :total="totalCount">
+          </el-pagination>
+        </el-col>
+      </el-row>
     </template>
   </layout>
 </template>
 <style>
-
+  .paginate-row{
+    padding:10px
+  }
 </style>
 <script>
 
   export default {
     data(){
       return {
-        messageList:[
-          {
-            messageQueueName:'test',
-            ownerTeamName:'ovs',
-            contactEmail:'ovs@email.com',
-            lastEditUser:'system',
-            lastEditDate:'2016-01-01'
-          }
-        ],
-        currentPage:1
+        messageList:[],
+        currentPageNum:1,
+        currentPageSize:10,
+        totalCount:0,
+        loading:false
       }
     },
     methods: {
      handleSizeChange(val) {
+      this.currentPageSize = val;
+      this.requestData();
      },
      handleCurrentChange(val) {
-       this.currentPage = val;
+       this.currentPageSize = 1
+       this.currentPageNum = val;
+       this.requestData();
+     },
+     requestData(){
+      this.loading = true;
+      this.$http.get(`/api/MessageList?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}`).then((response)=>{
+        this.loading = false;
+        if(response.body.code === 0){
+          this.messageList = response.body.data.list;
+          this.totalCount=response.body.data.totalCount;
+        }else{
+          this.$message({
+            message:response.body.message,
+            type:'error'
+          });
+        }
+      },(response)=>{
+          this.$message({
+            message:response.body.message,
+            type:'error'
+          });
+      });
      }
     },
+    mounted () {
+        console.log('mounted');
+        this.requestData();
+    }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

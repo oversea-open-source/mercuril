@@ -3,10 +3,10 @@ package com.messagecenter.portal.service;
 import com.messagecenter.portal.controller.Const;
 import com.messagecenter.portal.entity.MessageQueueInfo;
 import com.messagecenter.portal.entity.base.PageInfoQuery;
+import com.messagecenter.portal.entity.base.PageInfoResult;
 import com.messagecenter.portal.exception.BusinessException;
 import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
 import com.messagecenter.portal.utils.EncryptUtils;
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +44,16 @@ public class MessageQueueInfoService {
         } else {
             throw new BusinessException("Message queue with same name already exists");
         }
+    }
+
+    public PageInfoResult<MessageQueueInfo> getMessageQueueInfoList(int pageNum, int pageSize) {
+        PageInfoQuery<MessageQueueInfo> query = new PageInfoQuery<>();
+        query.setPageNum(pageNum);
+        query.setPageSize(pageSize);
+        List<MessageQueueInfo> list = messageQueueInfoMapper.getMessageQueueInfoList(query);
+        PageInfoResult<MessageQueueInfo> result = new PageInfoResult<>();
+        result.setList(list);
+        result.setTotalCount(messageQueueInfoMapper.getMessageQueueInfoListCount());
+        return result;
     }
 }

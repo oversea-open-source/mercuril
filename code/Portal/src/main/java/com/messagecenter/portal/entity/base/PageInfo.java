@@ -12,6 +12,7 @@ import java.util.List;
 public class PageInfo implements Serializable {
     private int pageSize;
     private int pageNum;
+    private int totalCount;
 
     public int getPageSize() {
         if (pageSize == 0) {

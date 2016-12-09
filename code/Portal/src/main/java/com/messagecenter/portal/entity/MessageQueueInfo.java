@@ -38,6 +38,10 @@ public class MessageQueueInfo extends BaseEntity implements Serializable {
     @Length(max = 100, message = "Length of contact email must less than 100 characters")
     private String contactEmail;
 
+    /**
+     * extend
+     */
+    private boolean usePassword;
 
     public boolean getIsOrderRequired() {
         return isOrderRequired;

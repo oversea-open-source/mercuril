@@ -1,11 +1,16 @@
 <template>
   <layout>
     <template slot="content">
+      <el-breadcrumb separator="/" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">Index</el-breadcrumb-item>
+        <el-breadcrumb-item>Message Queue Info List</el-breadcrumb-item>
+      </el-breadcrumb>
       <div>
         <el-table :data="messageList" v-loading:body="loading">
           <el-table-column
-            prop="messageQueueName"
+            inline-template
             label="Message Queue Name">
+            <router-link :to="'edit/' + row.id">{{row.messageQueueName}}</router-link>
           </el-table-column>
           <el-table-column
             prop="ownerTeamName"
@@ -42,6 +47,9 @@
   </layout>
 </template>
 <style>
+  .breadcrumb{
+    padding:20px
+  }
   .paginate-row{
     padding:10px
   }
@@ -64,7 +72,7 @@
       this.requestData();
      },
      handleCurrentChange(val) {
-       this.currentPageSize = 1
+       this.currentPageNum = 1
        this.currentPageNum = val;
        this.requestData();
      },
@@ -94,21 +102,6 @@
         this.requestData();
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </script>

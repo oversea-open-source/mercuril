@@ -17,6 +17,10 @@ export default new Router({
     {
       path: '/create',
       component: createMessagePage
+    },
+    {
+      path: '/edit/:id',
+      component: createMessagePage
     }
   ]
 });

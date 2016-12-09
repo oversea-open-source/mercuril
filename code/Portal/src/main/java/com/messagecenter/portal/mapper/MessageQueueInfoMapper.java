@@ -16,5 +16,7 @@ public interface MessageQueueInfoMapper {
 
     List<MessageQueueInfo> getMessageQueueInfoList(PageInfoQuery<MessageQueueInfo> messageQueueInfoQuery);
 
-    void saveMessageQueueInfoList(MessageQueueInfo messageQueueInfo);
+    void saveMessageQueueInfo(MessageQueueInfo messageQueueInfo);
+
+    void updateMessageQueueInfo(MessageQueueInfo messageQueueInfo);
 }

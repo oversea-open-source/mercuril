@@ -9,7 +9,6 @@ import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
 import com.messagecenter.portal.utils.EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.jvm.hotspot.utilities.MessageQueue;
 
 import java.util.Date;
 import java.util.List;

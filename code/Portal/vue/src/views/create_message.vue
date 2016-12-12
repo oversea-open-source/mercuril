@@ -63,24 +63,13 @@
 
 
 
+
 </style>
 <script>
     export default{
         data(){
             return {
-              form:{
-                id:0,
-                messageQueueName:null,
-                maxSize:null,
-                maxPendingLength:null,
-                publishPassword:null,
-                ownerTeamName:null,
-                contactEmail:null,
-                tags:null,
-                summary:null,
-                isOrderRequired:false,
-                usePassword:false,
-              },
+              form: this.initFormData(),
               rules:{
                 messageQueueName:[
                   {required:true, message:'Message queue name is required', trigger:'blur'},
@@ -116,9 +105,23 @@
             }
         },
         methods:{
+          initFormData(){
+            return {
+                id:0,
+                messageQueueName:null,
+                maxSize:null,
+                maxPendingLength:null,
+                publishPassword:null,
+                ownerTeamName:null,
+                contactEmail:null,
+                tags:null,
+                summary:null,
+                isOrderRequired:false,
+                usePassword:false,
+              };
+          },
           saveMessage(){
             this.$refs.createForm.validate((valid) => {
-              console.log('valid:', this.form.maxSize);
               if(valid){
                 this.loading = true;
                 this.$http.post(`/api/SaveMessageQueueInfo?isEdit=${this.isEdit}`, this.form).then((response) => {
@@ -148,28 +151,38 @@
               }
             })
 
+          },
+          fetchData(){
+            console.log("$route.params", this.$route.params.id);
+            if(this.$route.params.id && this.$route.params.id > 0){
+              this.isEdit = true;
+              this.$http.get(`/api/MessageList?id=${this.$route.params.id}`).then((response) => {
+                if(response.body.code === 0){
+                  this.form = response.body.data.list[0];
+                }else{
+                  this.$message({
+                    type:'error',
+                    message: response.body.message
+                  });
+                }
+              }, (response) => {
+                  this.$message({
+                    type:'error',
+                    message:'API error'
+                  });
+              });
+            }else{
+              this.isEdit = false;
+              this.form = this.initFormData();
+            }
           }
         },
         mounted(){
-          console.log("$route.params", this.$route.params.id);
-          if(this.$route.params.id && this.$route.params.id > 0){
-            this.isEdit = true;
-            this.$http.get(`/api/MessageList?id=${this.$route.params.id}`).then((response) => {
-              if(response.body.code === 0){
-                this.form = response.body.data.list[0];
-              }else{
-                this.$message({
-                  type:'error',
-                  message: response.body.message
-                });
-              }
-            }, (response) => {
-                this.$message({
-                  type:'error',
-                  message:'API error'
-                });
-            });
-          }
+          this.fetchData();
+
+        },
+        watch: {
+          '$route':'fetchData'
         },
         computed:{
           pwdPlaceholder(){
@@ -177,6 +190,7 @@
           }
         }
     }
+
 
 
 

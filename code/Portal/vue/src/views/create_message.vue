@@ -1,24 +1,29 @@
 <template>
   <layout>
     <template slot="content">
+      <el-breadcrumb separator="/" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">Index</el-breadcrumb-item>
+        <el-breadcrumb-item>Edit Message Queue Info</el-breadcrumb-item>
+      </el-breadcrumb>
       <el-row :gutter="10">
         <el-col :span="18">
 
           <el-form :model="form" ref="createForm" :rules="rules" label-width="280px" v-loading:body="loading">
             <el-form-item label="Message Queue Name:" prop="messageQueueName">
-              <el-input v-model="form.messageQueueName" placeholder="Message Queue Name"></el-input>
+              <el-input v-model="form.messageQueueName" placeholder="Message Queue Name" :disabled="isEdit"></el-input>
             </el-form-item>
             <el-form-item label="Max Message Size(kb):" prop="maxSize">
               <el-input type="number" v-model.number="form.maxSize" placeholder="Max message size"></el-input>
             </el-form-item>
             <el-form-item label="Max pending length:" prop="maxPendingLength">
-              <el-input type="number" v-model.number="form.maxPendingLength" placeholder="Max pending length"></el-input>
+              <el-input type="number" v-model.number="form.maxPendingLength"
+                        placeholder="Max pending length"></el-input>
             </el-form-item>
 
             <el-form-item label="Send message with password?" prop="publishPassword">
-              <el-switch on-text="" off-text="" v-model="usePassword"></el-switch>
-              <el-input v-if="usePassword" type="password" v-model="form.publishPassword"
-                        placeholder="Publish password"></el-input>
+              <el-switch on-text="" off-text="" v-model="form.usePassword"></el-switch>
+              <el-input v-if="form.usePassword" type="password" v-model="form.publishPassword"
+                        :placeholder="pwdPlaceholder"></el-input>
             </el-form-item>
             <el-form-item label="Owner Team" prop="ownerTeamName">
               <el-input v-model="form.ownerTeamName" placeholder="Owner Team Name"></el-input>
@@ -49,6 +54,13 @@
   </layout>
 </template>
 <style>
+.breadcrumb{
+    padding:20px
+}
+
+
+
+
 
 
 </style>
@@ -57,6 +69,7 @@
         data(){
             return {
               form:{
+                id:0,
                 messageQueueName:null,
                 maxSize:null,
                 maxPendingLength:null,
@@ -65,7 +78,8 @@
                 contactEmail:null,
                 tags:null,
                 summary:null,
-                isOrderRequired:false
+                isOrderRequired:false,
+                usePassword:false,
               },
               rules:{
                 messageQueueName:[
@@ -97,8 +111,8 @@
                   {max:500, message:'Length of Message queue name must less than 500 characters', trigger:'blur'}
                 ]
               },
-              usePassword:false,
-              loading:false
+              loading:false,
+              isEdit:false
             }
         },
         methods:{
@@ -107,7 +121,7 @@
               console.log('valid:', this.form.maxSize);
               if(valid){
                 this.loading = true;
-                this.$http.post('/api/SaveMessageQueueInfo', this.form).then((response) => {
+                this.$http.post(`/api/SaveMessageQueueInfo?isEdit=${this.isEdit}`, this.form).then((response) => {
                   this.loading = false;
                   if(response.body.code === 0){
                     this.$message({
@@ -135,31 +149,34 @@
             })
 
           }
+        },
+        mounted(){
+          console.log("$route.params", this.$route.params.id);
+          if(this.$route.params.id && this.$route.params.id > 0){
+            this.isEdit = true;
+            this.$http.get(`/api/MessageList?id=${this.$route.params.id}`).then((response) => {
+              if(response.body.code === 0){
+                this.form = response.body.data.list[0];
+              }else{
+                this.$message({
+                  type:'error',
+                  message: response.body.message
+                });
+              }
+            }, (response) => {
+                this.$message({
+                  type:'error',
+                  message:'API error'
+                });
+            });
+          }
+        },
+        computed:{
+          pwdPlaceholder(){
+            return this.isEdit?'Change publish password':'Publish password'
+          }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

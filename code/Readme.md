@@ -9,5 +9,8 @@
 2.Portal 项目端口 8081
 3.Sever 项目端口 8082
 
+发布说明
+Portal发布时，请在MAVEN中将Profiles选中PRD，这样会把vue生成的Js打包到JAR里面，然后直接访问http://localhost:8081，无需node环境。
+
 使用Lombok来生成实体的getter/setter/toString/hashcode方法
 1.IntelliJ idea需要安装lombok插件(https://github.com/mplushnikov/lombok-intellij-plugin),请参考链接中的步骤进行配置

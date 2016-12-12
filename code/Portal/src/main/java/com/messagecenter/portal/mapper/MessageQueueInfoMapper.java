@@ -2,6 +2,7 @@ package com.messagecenter.portal.mapper;
 
 import com.messagecenter.portal.entity.MessageQueueInfo;
 import com.messagecenter.portal.entity.base.PageInfoQuery;
+import com.messagecenter.portal.entity.base.PageInfoResult;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,7 +12,11 @@ import java.util.List;
  */
 @Mapper
 public interface MessageQueueInfoMapper {
+    int getMessageQueueInfoListCount();
+
     List<MessageQueueInfo> getMessageQueueInfoList(PageInfoQuery<MessageQueueInfo> messageQueueInfoQuery);
 
-    void saveMessageQueueInfoList(MessageQueueInfo messageQueueInfo);
+    void saveMessageQueueInfo(MessageQueueInfo messageQueueInfo);
+
+    void updateMessageQueueInfo(MessageQueueInfo messageQueueInfo);
 }

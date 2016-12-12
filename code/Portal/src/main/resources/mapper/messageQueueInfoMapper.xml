@@ -4,26 +4,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.messagecenter.portal.mapper.MessageQueueInfoMapper">
-    <select id="getMessageQueueInfoList" parameterType="com.messagecenter.portal.entity.base.PageInfoQuery"
-            resultType="com.messagecenter.portal.entity.MessageQueueInfo">
-        SELECT * FROM MessageQueueInfo
-        WHERE id >=
-        (
-            SELECT id FROM MessageQueueInfo
-            <where>
-                <if test="query.id != 0">
-                    id = #{query.id}
-                </if>
-                <if test="query.messageQueueName != null and !''.equals(query.messageQueueName.trim())">
-                    messageQueueName = #{query.messageQueueName}
-                </if>
-            </where>
-            ORDER BY id
-            LIMIT #{start}, 1
-        ) LIMIT #{pageSize}
+
+    <select id="getMessageQueueInfoListCount" resultType="Integer">
+        SELECT count(*) FROM MessageQueueInfo;
     </select>
 
-    <insert id="saveMessageQueueInfoList" parameterType="com.messagecenter.portal.entity.MessageQueueInfo">
+    <select id="getMessageQueueInfoList" parameterType="com.messagecenter.portal.entity.MessageQueueInfo"
+            resultType="com.messagecenter.portal.entity.MessageQueueInfo">
+        SELECT * FROM MessageQueueInfo
+        <where>
+            <if test="query != null and query.id != 0">
+                id = #{query.id}
+            </if>
+            <if test="query != null and query.messageQueueName != null and !''.equals(query.messageQueueName.trim())">
+                messageQueueName = #{query.messageQueueName}
+            </if>
+        </where>
+        ORDER BY id
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+    <insert id="saveMessageQueueInfo" parameterType="com.messagecenter.portal.entity.MessageQueueInfo">
         INSERT INTO MessageQueueInfo(
             `messageQueueName` ,
             `summary` ,
@@ -57,4 +58,24 @@
             #{lastEditUser},
             #{lastEditDate})
     </insert>
+
+    <update id="updateMessageQueueInfo" parameterType="com.messagecenter.portal.entity.MessageQueueInfo">
+        UPDATE MessageQueueInfo
+        SET
+        messageQueueName=#{messageQueueName},
+        summary=#{summary},
+        tags=#{tags},
+        ownerTeamName=#{ownerTeamName},
+        publishPassword=#{publishPassword},
+        maxSize=#{maxSize},
+        maxPendingLength=#{maxPendingLength},
+        isOrderRequired=#{isOrderRequired},
+        contactEmail=#{contactEmail},
+        isActive=#{isActive},
+        inUser=#{inUser},
+        inDate=#{inDate},
+        lastEditUser=#{lastEditUser},
+        lastEditDate=#{lastEditDate}
+        WHERE id=#{id}
+    </update>
 </mapper>

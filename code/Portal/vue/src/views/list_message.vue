@@ -1,11 +1,16 @@
 <template>
   <layout>
     <template slot="content">
+      <el-breadcrumb separator="/" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">Index</el-breadcrumb-item>
+        <el-breadcrumb-item>Message Queue Info List</el-breadcrumb-item>
+      </el-breadcrumb>
       <div>
-        <el-table :data="messageList">
+        <el-table :data="messageList" v-loading:body="loading">
           <el-table-column
-            prop="messageQueueName"
+            inline-template
             label="Message Queue Name">
+            <router-link :to="'edit/' + row.id">{{row.messageQueueName}}</router-link>
           </el-table-column>
           <el-table-column
             prop="ownerTeamName"
@@ -25,50 +30,78 @@
           </el-table-column>
         </el-table>
       </div>
-      <div>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
-          layout="sizes, prev, pager, next"
-          :total="1000">
-        </el-pagination>
-      </div>
+      <el-row type="flex" class="paginate-row" justify="end">
+        <el-col :span="6">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPageNum"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="currentPageSize"
+            layout="sizes, prev, pager, next"
+            :total="totalCount">
+          </el-pagination>
+        </el-col>
+      </el-row>
     </template>
   </layout>
 </template>
 <style>
-
+  .breadcrumb{
+    padding:20px
+  }
+  .paginate-row{
+    padding:10px
+  }
 </style>
 <script>
 
   export default {
     data(){
       return {
-        messageList:[
-          {
-            messageQueueName:'test',
-            ownerTeamName:'ovs',
-            contactEmail:'ovs@email.com',
-            lastEditUser:'system',
-            lastEditDate:'2016-01-01'
-          }
-        ],
-        currentPage:1
+        messageList:[],
+        currentPageNum:1,
+        currentPageSize:10,
+        totalCount:0,
+        loading:false
       }
     },
     methods: {
      handleSizeChange(val) {
+      this.currentPageSize = val;
+      this.requestData();
      },
      handleCurrentChange(val) {
-       this.currentPage = val;
+       this.currentPageNum = 1
+       this.currentPageNum = val;
+       this.requestData();
+     },
+     requestData(){
+      this.loading = true;
+      this.$http.get(`/api/MessageList?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}`).then((response)=>{
+        this.loading = false;
+        if(response.body.code === 0){
+          this.messageList = response.body.data.list;
+          this.totalCount=response.body.data.totalCount;
+        }else{
+          this.$message({
+            message:response.body.message,
+            type:'error'
+          });
+        }
+      },(response)=>{
+          this.$message({
+            message:response.body.message,
+            type:'error'
+          });
+      });
      }
     },
+    mounted () {
+        console.log('mounted');
+        this.requestData();
+    }
   }
-
-
 
 
 </script>

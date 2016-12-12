@@ -32,6 +32,15 @@
         LIMIT #{start}, #{pageSize}
     </select>
 
+    <select id="getSameUrlSubscriberCount" parameterType="com.messagecenter.portal.entity.MessageQueueSubscriber"
+            resultType="Integer">
+        SELECT COUNT(1) FROM MessageQueueSubscriber
+        <where>
+            id != #{id}
+            AND
+            subscriberApiUrl = #{subscriberApiUrl}
+        </where>
+    </select>
     <insert id="saveSubscriber" parameterType="com.messagecenter.portal.entity.MessageQueueSubscriber">
         INSERT INTO MessageQueueSubscriber(
              `messageQueueId`
@@ -60,6 +69,23 @@
             ,#{lastEditDate}
         )
     </insert>
+
+    <update id="updateSubscriber" parameterType="com.messagecenter.portal.entity.MessageQueueSubscriber">
+      UPDATE MessageQueueSubscriber
+      SET
+         messageQueueId=#{messageQueueId}
+        ,subscriberApiUrl=#{subscriberApiUrl}
+        ,retryCount=#{retryCount}
+        ,isAutoReplay=#{isAutoReplay}
+        ,autoReplayInterval=#{autoReplayInterval}
+        ,failedNotifyEmail=#{failedNotifyEmail}
+        ,isActive=#{isActive}
+        ,inUser=#{inUser}
+        ,inDate=#{inDate}
+        ,lastEditUser=#{lastEditUser}
+        ,lastEditDate=#{lastEditDate}
+      WHERE id=#{id}
+    </update>
 
 
 </mapper>

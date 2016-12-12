@@ -3,7 +3,7 @@
     <template slot="content">
       <el-breadcrumb separator="/" class="breadcrumb">
         <el-breadcrumb-item :to="{ path: '/' }">Index</el-breadcrumb-item>
-        <el-breadcrumb-item>Edit Message Queue Info</el-breadcrumb-item>
+        <el-breadcrumb-item :to="editMessagePath">Edit Message Queue Info</el-breadcrumb-item>
         <el-breadcrumb-item>Add Subscriber</el-breadcrumb-item>
       </el-breadcrumb>
 
@@ -13,8 +13,7 @@
           <el-form :model="initSubscribe" ref="addSubscribeForm" :rules="rules" label-width="280px"
                    v-loading:body="loading">
             <el-form-item label="Subscriber's API URL:" prop="subscriberApiUrl">
-              <el-input v-model="initSubscribe.subscriberApiUrl" placeholder="Subscriber's API URL"
-                        :disabled="isEdit"></el-input>
+              <el-input v-model="initSubscribe.subscriberApiUrl" placeholder="Subscriber's API URL"></el-input>
             </el-form-item>
             <el-form-item label="Retry Count:" prop="retryCount">
               <el-input type="number" v-model.number="initSubscribe.retryCount" placeholder="Retry Count"></el-input>
@@ -52,6 +51,9 @@
               initSubscribe: this.initFormData(),
               isEdit:false,
               loading:false,
+              editMessagePath:{
+                path:`/message/${this.$route.params.messageQueueId}`
+              },
               rules:{
                 subscriberApiUrl:[
                   {required:true, message:'Subscriber\'s API URL is required', trigger:'blur'},
@@ -85,7 +87,7 @@
               };
           },
           fetchData(){
-            console.log("$route.params.id", this.$route.params.id);
+            console.log("fetchData $route.params.id", this.$route.params.id);
             if(this.$route.params.id && this.$route.params.id > 0){
               this.isEdit = true;
               this.$http.get(`/api/Subscriber?id=${this.$route.params.id}`).then((response) => {
@@ -109,7 +111,6 @@
             }
           },
           saveSubscriber(){
-            console.log("this.initSubscribe.messageQueueId:", this.initSubscribe.messageQueueId);
             this.$refs.addSubscribeForm.validate((valid) => {
               if(valid){
                 this.loading = true;

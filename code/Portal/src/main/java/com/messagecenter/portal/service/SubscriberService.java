@@ -34,9 +34,11 @@ public class SubscriberService {
             id = 0;
         }
         PageInfoQuery<MessageQueueSubscriber> pageInfoQuery = new PageInfoQuery<>();
-        if (messageQueueID != 0) {
+        if (messageQueueID != 0 || id != 0) {
             MessageQueueSubscriber query = new MessageQueueSubscriber();
-            query.setMessageQueueId(messageQueueID);
+            if (messageQueueID != 0) {
+                query.setMessageQueueId(messageQueueID);
+            }
             if (id != 0) {
                 query.setId(id);
             }
@@ -71,5 +73,37 @@ public class SubscriberService {
         } else {
             throw new BusinessException("Subscriber with same API URL already exists");
         }
+    }
+
+    public void updateSubscriber(MessageQueueSubscriber subscriber) throws BusinessException {
+
+        PageInfoQuery<MessageQueueSubscriber> pageInfoQuery = new PageInfoQuery<>();
+        MessageQueueSubscriber query = new MessageQueueSubscriber();
+        query.setId(subscriber.getId());
+        pageInfoQuery.setQuery(query);
+        List<MessageQueueSubscriber> existInfos = subscriberMapper.getSubscriberList(pageInfoQuery);
+
+        if (existInfos != null && existInfos.size() > 0) {
+            MessageQueueSubscriber sameUrlQuery = new MessageQueueSubscriber();
+            sameUrlQuery.setId(subscriber.getId());
+            sameUrlQuery.setSubscriberApiUrl(subscriber.getSubscriberApiUrl());
+            int sameUrlCount = subscriberMapper.getSameUrlSubscriberCount(sameUrlQuery);
+
+            if (sameUrlCount == 0) {
+                MessageQueueSubscriber existInfo = existInfos.get(0);
+                subscriber.setInDate(existInfo.getInDate());
+                subscriber.setInUser(existInfo.getInUser());
+                subscriber.setLastEditUser(Const.IN_USER_NAME);
+                subscriber.setLastEditDate(new Date());
+                subscriber.setActive(true);
+                subscriberMapper.updateSubscriber(subscriber);
+            } else {
+                throw new BusinessException("Subscriber with same API URL already exists");
+            }
+        } else {
+            throw new BusinessException("Subscriber not exists");
+        }
+
+
     }
 }

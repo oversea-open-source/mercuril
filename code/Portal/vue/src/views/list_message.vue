@@ -6,7 +6,7 @@
         <el-breadcrumb-item>Message Queue Info List</el-breadcrumb-item>
       </el-breadcrumb>
       <div>
-        <el-table :data="messageList" v-loading:body="loading">
+        <el-table :data="messageList" v-loading:body="loading"  emptyText="There is no available message queue">
           <el-table-column
             inline-template
             label="Message Queue Name">

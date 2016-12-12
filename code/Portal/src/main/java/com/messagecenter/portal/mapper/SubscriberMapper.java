@@ -16,4 +16,8 @@ public interface SubscriberMapper {
     List<MessageQueueSubscriber> getSubscriberList(PageInfoQuery<MessageQueueSubscriber> subscriberQuery);
 
     void saveSubscriber(MessageQueueSubscriber subscriber);
+
+    void updateSubscriber(MessageQueueSubscriber subscriber);
+
+    int getSameUrlSubscriberCount(MessageQueueSubscriber subscriber);
 }

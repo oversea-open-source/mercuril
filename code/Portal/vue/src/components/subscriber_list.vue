@@ -7,16 +7,20 @@
     </el-row>
     <el-row class="subscriber-table">
       <el-col :span="24">
-        <el-table :data="subscriberList" v-loading:body="loading">
+        <el-table :data="subscriberList" v-loading:body="loading" emptyText="There is no available subscriber">
           <el-table-column
+            width="100"
+            inline-template
             prop="id"
             label="ID">
+            <router-link :to="rootPath + row.id">{{row.id}}</router-link>
           </el-table-column>
           <el-table-column
             prop="subscriberApiUrl"
             label="Subscriber API URL">
           </el-table-column>
           <el-table-column
+            width="120"
             prop="retryCount"
             label="Retry Count">
           </el-table-column>
@@ -25,6 +29,7 @@
             label="Failed Notify Email">
           </el-table-column>
           <el-table-column
+            width="100"
             prop="lastEditUser"
             label="Edit User">
           </el-table-column>
@@ -60,6 +65,7 @@
   }
 
 
+
 </style>
 <script>
     export default{
@@ -69,6 +75,7 @@
                 currentPageNum:1,
                 currentPageSize:10,
                 totalCount:0,
+                rootPath:`/subscriber/${this.$route.params.id}/`,
                 loading:false
             }
         },
@@ -110,6 +117,7 @@
           this.requestData();
         }
      }
+
 
 
 </script>

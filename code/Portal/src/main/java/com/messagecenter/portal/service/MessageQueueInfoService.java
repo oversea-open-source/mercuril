@@ -45,7 +45,7 @@ public class MessageQueueInfoService {
         }
     }
 
-    public void updateMessageQueueInfo(MessageQueueInfo messageQueueInfo) {
+    public void updateMessageQueueInfo(MessageQueueInfo messageQueueInfo) throws BusinessException {
         PageInfoQuery<MessageQueueInfo> query = new PageInfoQuery<>();
         MessageQueueInfo queueInfo = new MessageQueueInfo();
         queueInfo.setId(messageQueueInfo.getId());
@@ -69,14 +69,16 @@ public class MessageQueueInfoService {
                 messageQueueInfo.setPublishPassword(null);
             }
             messageQueueInfoMapper.updateMessageQueueInfo(messageQueueInfo);
+        } else {
+            throw new BusinessException("Message queue not exists");
         }
     }
 
     public PageInfoResult<MessageQueueInfo> getMessageQueueInfoList(Integer pageNum, Integer pageSize, Integer id) {
-        if(pageNum == null){
+        if (pageNum == null) {
             pageNum = 0;
         }
-        if(pageSize == null){
+        if (pageSize == null) {
             pageSize = 0;
         }
 

@@ -30,7 +30,11 @@ public class SubscriberController {
 
     @RequestMapping(value = "/api/Subscriber", method = RequestMethod.POST)
     public BaseResponse saveSubscriber(@Validated @RequestBody MessageQueueSubscriber subscriber, @RequestParam(required = false) boolean isEdit) throws BusinessException {
-        subscriberService.saveSubscriber(subscriber);
+        if (isEdit) {
+            subscriberService.updateSubscriber(subscriber);
+        } else {
+            subscriberService.saveSubscriber(subscriber);
+        }
         BaseResponse response = new BaseResponse();
         response.setMessage("Subscriber has been saved successfully");
         response.setCode(StatusCode.SUCCESS);

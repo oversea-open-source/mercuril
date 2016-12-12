@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.messagecenter.portal.mapper.SubscriberMapper">
+
+    <select id="getSubscriberCountByMessageQueueID" parameterType="Integer" resultType="Integer">
+        SELECT count(*) FROM MessageQueueSubscriber
+        <where>
+            <if test="_parameter != 0">
+                messageQueueId = #{_parameter}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSubscriberList" parameterType="com.messagecenter.portal.entity.base.PageInfoQuery"
+            resultType="com.messagecenter.portal.entity.MessageQueueSubscriber">
+        SELECT * FROM MessageQueueSubscriber
+        <where>
+            <if test="query != null and query.id != 0">
+                id = #{query.id}
+            </if>
+            <if test="query != null and query.messageQueueId != 0">
+                messageQueueId = #{query.messageQueueId}
+            </if>
+            <if test="query != null and query.subscriberApiUrl != null and !''.equals(query.subscriberApiUrl.trim())">
+                subscriberApiUrl = #{query.subscriberApiUrl}
+            </if>
+        </where>
+        ORDER BY id
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+    <insert id="saveSubscriber" parameterType="com.messagecenter.portal.entity.MessageQueueSubscriber">
+        INSERT INTO MessageQueueSubscriber(
+             `messageQueueId`
+            ,`subscriberApiUrl`
+            ,`retryCount`
+            ,`isAutoReplay`
+            ,`autoReplayInterval`
+            ,`failedNotifyEmail`
+            ,`isActive`
+            ,`inUser`
+            ,`inDate`
+            ,`lastEditUser`
+            ,`lastEditDate`
+        )
+        VALUES(
+             #{messageQueueId}
+            ,#{subscriberApiUrl}
+            ,#{retryCount}
+            ,#{isAutoReplay}
+            ,#{autoReplayInterval}
+            ,#{failedNotifyEmail}
+            ,#{isActive}
+            ,#{inUser}
+            ,#{inDate}
+            ,#{lastEditUser}
+            ,#{lastEditDate}
+        )
+    </insert>
+
+
+</mapper>

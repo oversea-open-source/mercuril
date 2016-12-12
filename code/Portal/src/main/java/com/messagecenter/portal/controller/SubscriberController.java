@@ -1,0 +1,39 @@
+package com.messagecenter.portal.controller;
+
+import com.messagecenter.portal.entity.MessageQueueSubscriber;
+import com.messagecenter.portal.entity.base.BaseResponse;
+import com.messagecenter.portal.entity.base.PageInfoResult;
+import com.messagecenter.portal.entity.base.StatusCode;
+import com.messagecenter.portal.exception.BusinessException;
+import com.messagecenter.portal.service.SubscriberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * Created by Jared on 16/12/12.
+ */
+@RestController
+public class SubscriberController {
+
+    @Autowired
+    SubscriberService subscriberService;
+
+    @RequestMapping(value = "/api/Subscriber", method = RequestMethod.GET)
+    public BaseResponse<PageInfoResult<MessageQueueSubscriber>> getSubscriberListByMessageQueueId(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer messageQueueId, @RequestParam(required = false) Integer id) {
+        PageInfoResult<MessageQueueSubscriber> result = subscriberService.getSubscriberListByMessageQueueId(pageNum, pageSize, messageQueueId, id);
+        BaseResponse<PageInfoResult<MessageQueueSubscriber>> response = new BaseResponse<>();
+        response.setCode(StatusCode.SUCCESS);
+        response.setData(result);
+        return response;
+    }
+
+    @RequestMapping(value = "/api/Subscriber", method = RequestMethod.POST)
+    public BaseResponse saveSubscriber(@Validated @RequestBody MessageQueueSubscriber subscriber, @RequestParam(required = false) boolean isEdit) throws BusinessException {
+        subscriberService.saveSubscriber(subscriber);
+        BaseResponse response = new BaseResponse();
+        response.setMessage("Subscriber has been saved successfully");
+        response.setCode(StatusCode.SUCCESS);
+        return response;
+    }
+}

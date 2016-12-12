@@ -8,7 +8,7 @@
 
       <el-row>
         <el-col :span="24">
-          <template>
+          <template v-if="isEdit">
             <el-tabs @tab-click="tabClick" class="message-tab">
               <el-tab-pane label="Edit" name="edit">
                 <message-form :initMessage="initMessage" :isEdit="isEdit">
@@ -16,19 +16,19 @@
               </el-tab-pane>
               <el-tab-pane label="Subscriber" name="subscriber">
                 <el-row>
-                  <el-col :span="18">
-
-
+                  <el-col :span="24">
+                    <subscriber-list></subscriber-list>
                   </el-col>
-
                 </el-row>
               </el-tab-pane>
             </el-tabs>
           </template>
+          <template v-else>
+            <message-form :initMessage="initMessage" :isEdit="isEdit">
+            </message-form>
+          </template>
         </el-col>
       </el-row>
-
-
     </template>
   </layout>
 </template>
@@ -39,6 +39,8 @@
 .message-tab{
     width:100%
 }
+
+
 
 
 
@@ -105,9 +107,12 @@
           '$route':'fetchData'
         },
         components:{
-          'message-form':require('../components/message_form.vue')
+          'message-form':require('../components/message_form.vue'),
+          'subscriber-list':require('../components/subscriber_list.vue')
         }
     }
+
+
 
 
 </script>

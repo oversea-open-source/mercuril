@@ -62,7 +62,7 @@ public class MessageQueueInfoService {
             if (messageQueueInfo.isUsePassword()) {
                 if (null != messageQueueInfo.getPublishPassword() && messageQueueInfo.getPublishPassword().length() > 0) {
                     messageQueueInfo.setPublishPassword(EncryptUtils.encrypt(messageQueueInfo.getPublishPassword()));
-                }else {
+                } else {
                     messageQueueInfo.setPublishPassword(existInfo.getPublishPassword());
                 }
             } else {
@@ -73,11 +73,10 @@ public class MessageQueueInfoService {
     }
 
     public PageInfoResult<MessageQueueInfo> getMessageQueueInfoList(Integer pageNum, Integer pageSize, Integer id) {
-
-        if (pageNum == null) {
-            pageNum = 1;
+        if(pageNum == null){
+            pageNum = 0;
         }
-        if (pageSize == null) {
+        if(pageSize == null){
             pageSize = 0;
         }
 

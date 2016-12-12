@@ -10,7 +10,7 @@
           <el-table-column
             inline-template
             label="Message Queue Name">
-            <router-link :to="'edit/' + row.id">{{row.messageQueueName}}</router-link>
+            <router-link :to="'message/' + row.id">{{row.messageQueueName}}</router-link>
           </el-table-column>
           <el-table-column
             prop="ownerTeamName"

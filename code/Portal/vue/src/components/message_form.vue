@@ -77,7 +77,7 @@
         },
         data(){
             return{
-                rules:{
+              rules:{
                 messageQueueName:[
                   {required:true, message:'Message queue name is required', trigger:'blur'},
                   {min:1, max:50, message:'Length of Message queue name must between 1 to 50 characters', trigger:'blur'}
@@ -142,7 +142,7 @@
               }
             })
 
-          },
+          }
         },
         computed:{
           pwdPlaceholder(){
@@ -150,6 +150,7 @@
           }
         },
     }
+
 
 
 </script>

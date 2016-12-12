@@ -124,7 +124,7 @@
             this.$refs.createForm.validate((valid) => {
               if(valid){
                 this.loading = true;
-                this.$http.post(`/api/SaveMessageQueueInfo?isEdit=${this.isEdit}`, this.form).then((response) => {
+                this.$http.post(`/api/MessageQueueInfo?isEdit=${this.isEdit}`, this.form).then((response) => {
                   this.loading = false;
                   if(response.body.code === 0){
                     this.$message({
@@ -156,7 +156,7 @@
             console.log("$route.params", this.$route.params.id);
             if(this.$route.params.id && this.$route.params.id > 0){
               this.isEdit = true;
-              this.$http.get(`/api/MessageList?id=${this.$route.params.id}`).then((response) => {
+              this.$http.get(`/api/MessageQueueInfo?id=${this.$route.params.id}`).then((response) => {
                 if(response.body.code === 0){
                   this.form = response.body.data.list[0];
                 }else{

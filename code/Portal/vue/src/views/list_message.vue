@@ -78,7 +78,7 @@
      },
      requestData(){
       this.loading = true;
-      this.$http.get(`/api/MessageList?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}`).then((response)=>{
+      this.$http.get(`/api/MessageQueueInfo?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}`).then((response)=>{
         this.loading = false;
         if(response.body.code === 0){
           this.messageList = response.body.data.list;

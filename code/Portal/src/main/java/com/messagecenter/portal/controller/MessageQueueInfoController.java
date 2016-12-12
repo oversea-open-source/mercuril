@@ -23,7 +23,7 @@ public class MessageQueueInfoController {
     MessageQueueInfoService messageQueueInfoService;
 
 
-    @RequestMapping(value = "/api/SaveMessageQueueInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/MessageQueueInfo", method = RequestMethod.POST)
     public BaseResponse saveMessageQueueInfo(@Validated @RequestBody MessageQueueInfo messageQueueInfo, @RequestParam(required = false) boolean isEdit) throws BusinessException {
         if (isEdit) {
             messageQueueInfoService.updateMessageQueueInfo(messageQueueInfo);
@@ -36,7 +36,7 @@ public class MessageQueueInfoController {
         return response;
     }
 
-    @RequestMapping(value = "/api/MessageList", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/MessageQueueInfo", method = RequestMethod.GET)
     public BaseResponse<PageInfoResult<MessageQueueInfo>> getMessageList(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer id) {
         PageInfoResult<MessageQueueInfo> result = messageQueueInfoService.getMessageQueueInfoList(pageNum, pageSize, id);
         BaseResponse<PageInfoResult<MessageQueueInfo>> response = new BaseResponse<>();

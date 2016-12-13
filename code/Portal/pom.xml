@@ -4,13 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>portal</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<packaging>${packaging.type}</packaging>
 
 	<parent>
 		<groupId>com.messageCenter</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${project.version}</version>
 	</parent>
 
 	<properties>
@@ -18,6 +17,12 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.messageCenter</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>

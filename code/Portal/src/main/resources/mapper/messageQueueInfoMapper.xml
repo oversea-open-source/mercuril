@@ -9,8 +9,8 @@
         SELECT count(*) FROM MessageQueueInfo;
     </select>
 
-    <select id="getMessageQueueInfoList" parameterType="com.messagecenter.portal.entity.base.PageInfoQuery"
-            resultType="com.messagecenter.portal.entity.MessageQueueInfo">
+    <select id="getMessageQueueInfoList" parameterType="com.messagecenter.common.entity.base.PageInfoQuery"
+            resultType="com.messagecenter.common.entity.MessageQueueInfo">
         SELECT * FROM MessageQueueInfo
         <where>
             <if test="query != null and query.id != 0">
@@ -24,7 +24,7 @@
         LIMIT #{start}, #{pageSize}
     </select>
 
-    <insert id="saveMessageQueueInfo" parameterType="com.messagecenter.portal.entity.MessageQueueInfo">
+    <insert id="saveMessageQueueInfo" parameterType="com.messagecenter.common.entity.MessageQueueInfo">
         INSERT INTO MessageQueueInfo(
             `messageQueueName` ,
             `summary` ,
@@ -59,7 +59,7 @@
             #{lastEditDate})
     </insert>
 
-    <update id="updateMessageQueueInfo" parameterType="com.messagecenter.portal.entity.MessageQueueInfo">
+    <update id="updateMessageQueueInfo" parameterType="com.messagecenter.common.entity.MessageQueueInfo">
         UPDATE MessageQueueInfo
         SET
         messageQueueName=#{messageQueueName},

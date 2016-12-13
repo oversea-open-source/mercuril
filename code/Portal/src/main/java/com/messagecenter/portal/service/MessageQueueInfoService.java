@@ -1,9 +1,9 @@
 package com.messagecenter.portal.service;
 
 import com.messagecenter.portal.controller.Const;
-import com.messagecenter.portal.entity.MessageQueueInfo;
-import com.messagecenter.portal.entity.base.PageInfoQuery;
-import com.messagecenter.portal.entity.base.PageInfoResult;
+import com.messagecenter.common.entity.MessageQueueInfo;
+import com.messagecenter.common.entity.base.PageInfoQuery;
+import com.messagecenter.common.entity.base.PageInfoResult;
 import com.messagecenter.portal.exception.BusinessException;
 import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
 import com.messagecenter.portal.utils.EncryptUtils;

@@ -14,8 +14,8 @@
         </where>
     </select>
 
-    <select id="getSubscriberList" parameterType="com.messagecenter.portal.entity.base.PageInfoQuery"
-            resultType="com.messagecenter.portal.entity.MessageQueueSubscriber">
+    <select id="getSubscriberList" parameterType="com.messagecenter.common.entity.base.PageInfoQuery"
+            resultType="com.messagecenter.common.entity.MessageQueueSubscriber">
         SELECT * FROM MessageQueueSubscriber
         <where>
             <if test="query != null and query.id != 0">
@@ -32,7 +32,7 @@
         LIMIT #{start}, #{pageSize}
     </select>
 
-    <select id="getSameUrlSubscriberCount" parameterType="com.messagecenter.portal.entity.MessageQueueSubscriber"
+    <select id="getSameUrlSubscriberCount" parameterType="com.messagecenter.common.entity.MessageQueueSubscriber"
             resultType="Integer">
         SELECT COUNT(1) FROM MessageQueueSubscriber
         <where>
@@ -41,7 +41,7 @@
             subscriberApiUrl = #{subscriberApiUrl}
         </where>
     </select>
-    <insert id="saveSubscriber" parameterType="com.messagecenter.portal.entity.MessageQueueSubscriber">
+    <insert id="saveSubscriber" parameterType="com.messagecenter.common.entity.MessageQueueSubscriber">
         INSERT INTO MessageQueueSubscriber(
              `messageQueueId`
             ,`subscriberApiUrl`
@@ -70,7 +70,7 @@
         )
     </insert>
 
-    <update id="updateSubscriber" parameterType="com.messagecenter.portal.entity.MessageQueueSubscriber">
+    <update id="updateSubscriber" parameterType="com.messagecenter.common.entity.MessageQueueSubscriber">
       UPDATE MessageQueueSubscriber
       SET
          messageQueueId=#{messageQueueId}

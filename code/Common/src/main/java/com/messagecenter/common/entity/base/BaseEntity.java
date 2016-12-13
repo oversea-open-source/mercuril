@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -23,5 +24,15 @@ public class BaseEntity implements Serializable {
 
     public boolean getIsActive() {
         return isActive;
+    }
+
+    public String getFormattedLastEditDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
+        return simpleDateFormat.format(getLastEditDate());
+    }
+
+    public String getFormattedInDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
+        return simpleDateFormat.format(getInDate());
     }
 }

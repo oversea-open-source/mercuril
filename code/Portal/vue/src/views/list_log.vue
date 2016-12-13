@@ -31,7 +31,7 @@
             label="Failed Reason">
           </el-table-column>
           <el-table-column
-            prop="lastEditDate"
+            prop="formattedLastEditDate"
             label="Last Edit Date">
           </el-table-column>
         </el-table>

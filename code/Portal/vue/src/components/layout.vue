@@ -6,7 +6,7 @@
           <el-submenu index="1">
             <template slot="title">Message</template>
             <el-menu-item index="/">List</el-menu-item>
-            <el-menu-item index="/create">Create</el-menu-item>
+            <el-menu-item index="/message/create">Create</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-col>

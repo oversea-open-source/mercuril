@@ -6,11 +6,11 @@
         <el-breadcrumb-item>Message Queue Info List</el-breadcrumb-item>
       </el-breadcrumb>
       <div>
-        <el-table :data="messageList" v-loading:body="loading">
+        <el-table :data="messageList" v-loading:body="loading"  emptyText="There is no available message queue">
           <el-table-column
             inline-template
             label="Message Queue Name">
-            <router-link :to="'edit/' + row.id">{{row.messageQueueName}}</router-link>
+            <router-link :to="'message/' + row.id">{{row.messageQueueName}}</router-link>
           </el-table-column>
           <el-table-column
             prop="ownerTeamName"
@@ -78,7 +78,7 @@
      },
      requestData(){
       this.loading = true;
-      this.$http.get(`/api/MessageList?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}`).then((response)=>{
+      this.$http.get(`/api/MessageQueueInfo?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}`).then((response)=>{
         this.loading = false;
         if(response.body.code === 0){
           this.messageList = response.body.data.list;

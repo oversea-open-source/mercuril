@@ -9,7 +9,7 @@
         SELECT count(*) FROM MessageQueueInfo;
     </select>
 
-    <select id="getMessageQueueInfoList" parameterType="com.messagecenter.portal.entity.MessageQueueInfo"
+    <select id="getMessageQueueInfoList" parameterType="com.messagecenter.portal.entity.base.PageInfoQuery"
             resultType="com.messagecenter.portal.entity.MessageQueueInfo">
         SELECT * FROM MessageQueueInfo
         <where>

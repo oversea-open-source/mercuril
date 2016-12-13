@@ -5,50 +5,29 @@
         <el-breadcrumb-item :to="{ path: '/' }">Index</el-breadcrumb-item>
         <el-breadcrumb-item>Edit Message Queue Info</el-breadcrumb-item>
       </el-breadcrumb>
-      <el-row :gutter="10">
-        <el-col :span="18">
 
-          <el-form :model="form" ref="createForm" :rules="rules" label-width="280px" v-loading:body="loading">
-            <el-form-item label="Message Queue Name:" prop="messageQueueName">
-              <el-input v-model="form.messageQueueName" placeholder="Message Queue Name" :disabled="isEdit"></el-input>
-            </el-form-item>
-            <el-form-item label="Max Message Size(kb):" prop="maxSize">
-              <el-input type="number" v-model.number="form.maxSize" placeholder="Max message size"></el-input>
-            </el-form-item>
-            <el-form-item label="Max pending length:" prop="maxPendingLength">
-              <el-input type="number" v-model.number="form.maxPendingLength"
-                        placeholder="Max pending length"></el-input>
-            </el-form-item>
-
-            <el-form-item label="Send message with password?" prop="publishPassword">
-              <el-switch on-text="" off-text="" v-model="form.usePassword"></el-switch>
-              <el-input v-if="form.usePassword" type="password" v-model="form.publishPassword"
-                        :placeholder="pwdPlaceholder"></el-input>
-            </el-form-item>
-            <el-form-item label="Owner Team" prop="ownerTeamName">
-              <el-input v-model="form.ownerTeamName" placeholder="Owner Team Name"></el-input>
-            </el-form-item>
-            <el-form-item label="Owner's contact E-mail:" prop="contactEmail">
-              <el-input v-model="form.contactEmail" placeholder="Owner's contact email"></el-input>
-            </el-form-item>
-
-            <el-form-item label="Tags:" prop="tags">
-              <el-input v-model="form.tags" placeholder="Tags, separeted by ','"></el-input>
-            </el-form-item>
-            <el-form-item label="Summary:" prop="summary">
-              <el-input type="textarea" v-model="form.summary" placeholder="Summary"></el-input>
-            </el-form-item>
-            <el-form-item label="Order Required">
-              <el-switch on-text="" off-text="" v-model="form.isOrderRequired"></el-switch>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="saveMessage">Save</el-button>
-            </el-form-item>
-
-          </el-form>
-
+      <el-row>
+        <el-col :span="24">
+          <template v-if="isEdit">
+            <el-tabs @tab-click="tabClick" class="message-tab">
+              <el-tab-pane label="Edit" name="edit">
+                <message-form :initMessage="initMessage" :isEdit="isEdit">
+                </message-form>
+              </el-tab-pane>
+              <el-tab-pane label="Subscriber" name="subscriber">
+                <el-row>
+                  <el-col :span="24">
+                    <subscriber-list></subscriber-list>
+                  </el-col>
+                </el-row>
+              </el-tab-pane>
+            </el-tabs>
+          </template>
+          <template v-else>
+            <message-form :initMessage="initMessage" :isEdit="isEdit">
+            </message-form>
+          </template>
         </el-col>
-
       </el-row>
     </template>
   </layout>
@@ -57,6 +36,10 @@
 .breadcrumb{
     padding:20px
 }
+.message-tab{
+    width:100%
+}
+
 
 
 
@@ -68,7 +51,13 @@
     export default{
         data(){
             return {
-              form:{
+              initMessage: this.initFormData(),
+              isEdit:false
+            }
+        },
+        methods:{
+          initFormData(){
+            return {
                 id:0,
                 messageQueueName:null,
                 maxSize:null,
@@ -80,105 +69,48 @@
                 summary:null,
                 isOrderRequired:false,
                 usePassword:false,
-              },
-              rules:{
-                messageQueueName:[
-                  {required:true, message:'Message queue name is required', trigger:'blur'},
-                  {min:1, max:50, message:'Length of Message queue name must between 1 to 50 characters', trigger:'blur'}
-                ],
-                maxSize:[
-                  {type:'integer', message:'Max size must be a integer'},
-                  {type:'integer', min:1, max:2048, message:'Max size of message must between 1kb to 2048kb', trigger:'blur'}
-                ],
-                maxPendingLength:[
-                  {type:'integer', message:'Max pending count must be a integer'},
-                  {type:'integer', max:2000, message:'Max pending count of message must less than 2000', trigger:'blur'}
-                ],
-                publishPassword:[
-                  {min:6, max:20, message:'Length of password must between 6 to 20 characters', trigger:'blur'}
-                ],
-                ownerTeamName:[
-                  {required:true, message:'Owner team name is required', trigger:'blur'},
-                  {min:1, max:50, message:'Length of owner team name must less than 50 characters', trigger:'blur'}
-                ],
-                contactEmail:[
-                  {type:'email', max:100, message:'Length of contact email must less than 100 characters', trigger:'blur'}
-                ],
-                tags:[
-                  {max:200, message:'Length of tags must less than 200 characters', trigger:'blur'}
-                ],
-                summary:[
-                  {max:500, message:'Length of Message queue name must less than 500 characters', trigger:'blur'}
-                ]
-              },
-              loading:false,
-              isEdit:false
-            }
-        },
-        methods:{
-          saveMessage(){
-            this.$refs.createForm.validate((valid) => {
-              console.log('valid:', this.form.maxSize);
-              if(valid){
-                this.loading = true;
-                this.$http.post(`/api/SaveMessageQueueInfo?isEdit=${this.isEdit}`, this.form).then((response) => {
-                  this.loading = false;
-                  if(response.body.code === 0){
-                    this.$message({
-                      message:'Message has been saved successfully',
-                      type:'success'
-                    });
-                  }else{
-                    this.$message({
-                      message:response.body.message,
-                      type:'error'
-                    });
-                  }
-
-                }, (response) => {
-                  this.loading = false;
+              };
+          },
+          fetchData(){
+            console.log("$route.params", this.$route.params.id);
+            if(this.$route.params.id && this.$route.params.id > 0){
+              this.isEdit = true;
+              this.$http.get(`/api/MessageQueueInfo?id=${this.$route.params.id}`).then((response) => {
+                if(response.body.code === 0){
+                  this.initMessage = response.body.data.list[0];
+                }else{
                   this.$message({
-                    message:'API error',
-                    type:'error'
-                  })
-                });
-                return true;
-              }else{
-                return false;
-              }
-            })
-
+                    type:'error',
+                    message: response.body.message
+                  });
+                }
+              }, () => {
+                  this.$message({
+                    type:'error',
+                    message:'API error'
+                  });
+              });
+            }else{
+              this.isEdit = false;
+              this.initMessage = this.initFormData();
+            }
+          },
+          tabClick(tab){
+            console.log('tab selected:',tab);
           }
         },
         mounted(){
-          console.log("$route.params", this.$route.params.id);
-          if(this.$route.params.id && this.$route.params.id > 0){
-            this.isEdit = true;
-            this.$http.get(`/api/MessageList?id=${this.$route.params.id}`).then((response) => {
-              if(response.body.code === 0){
-                this.form = response.body.data.list[0];
-              }else{
-                this.$message({
-                  type:'error',
-                  message: response.body.message
-                });
-              }
-            }, (response) => {
-                this.$message({
-                  type:'error',
-                  message:'API error'
-                });
-            });
-          }
+          this.fetchData();
+
         },
-        computed:{
-          pwdPlaceholder(){
-            return this.isEdit?'Change publish password':'Publish password'
-          }
+        watch: {
+          '$route':'fetchData'
+        },
+        components:{
+          'message-form':require('../components/message_form.vue'),
+          'subscriber-list':require('../components/subscriber_list.vue')
         }
     }
-
-
 
 
 

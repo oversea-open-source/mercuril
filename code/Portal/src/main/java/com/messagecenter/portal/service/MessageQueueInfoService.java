@@ -1,6 +1,6 @@
 package com.messagecenter.portal.service;
 
-import com.messagecenter.portal.controller.Const;
+import com.messagecenter.portal.config.Const;
 import com.messagecenter.common.entity.MessageQueueInfo;
 import com.messagecenter.common.entity.base.PageInfoQuery;
 import com.messagecenter.common.entity.base.PageInfoResult;

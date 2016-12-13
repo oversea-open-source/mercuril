@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.messagecenter.portal.mapper.MessageLogMapper">
+
+    <select id="getLogCount"  resultType="Integer">
+        SELECT count(1)
+        FROM MessageLog l
+        INNER JOIN MessageQueueSubscriber s
+        ON l.messageQueueSubscriberId = s.id
+        INNER JOIN MessageQueueInfo q
+        ON s.messageQueueId = q.id
+        WHERE s.isActive = true
+        AND q.isActive = true
+    </select>
+
+    <select id="getLogList" parameterType="com.messagecenter.common.entity.base.PageInfoQuery"
+            resultType="com.messagecenter.common.entity.MessageLog">
+        SELECT l.*, q.messageQueueName, s.subscriberApiUrl
+        FROM MessageLog l
+        INNER JOIN MessageQueueSubscriber s
+        ON l.messageQueueSubscriberId = s.id
+        INNER JOIN MessageQueueInfo q
+        ON s.messageQueueId = q.id
+        <where>
+            <if test="query != null and query.messageQueueName != null and !''.equals(query.messageQueueName.trim())">
+                q.messageQueueName = #{query.messageQueueName}
+            </if>
+            <if test="query != null and query.subscriberApiUrl != null and !''.equals(query.subscriberApiUrl.trim())">
+                s.subscriberApiUrl = #{query.subscriberApiUrl}
+            </if>
+            AND s.isActive = true
+            AND q.isActive = true
+        </where>
+        ORDER BY id
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+</mapper>

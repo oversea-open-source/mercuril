@@ -18,4 +18,10 @@ public class MessageLog extends BaseEntity implements Serializable {
     private String failedReason;
     private int failedRetryCount;
     private Date lastReplayFinishedDate;
+
+    /**
+     * extend
+     */
+    private String messageQueueName;
+    private String subscriberApiUrl;
 }

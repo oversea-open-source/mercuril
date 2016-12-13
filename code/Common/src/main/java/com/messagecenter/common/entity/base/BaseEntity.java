@@ -1,4 +1,4 @@
-package com.messagecenter.portal.entity.base;
+package com.messagecenter.common.entity.base;
 
 import lombok.AccessLevel;
 import lombok.Data;

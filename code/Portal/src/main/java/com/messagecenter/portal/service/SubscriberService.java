@@ -1,9 +1,9 @@
 package com.messagecenter.portal.service;
 
 import com.messagecenter.portal.controller.Const;
-import com.messagecenter.portal.entity.MessageQueueSubscriber;
-import com.messagecenter.portal.entity.base.PageInfoQuery;
-import com.messagecenter.portal.entity.base.PageInfoResult;
+import com.messagecenter.common.entity.MessageQueueSubscriber;
+import com.messagecenter.common.entity.base.PageInfoQuery;
+import com.messagecenter.common.entity.base.PageInfoResult;
 import com.messagecenter.portal.exception.BusinessException;
 import com.messagecenter.portal.mapper.SubscriberMapper;
 import org.springframework.beans.factory.annotation.Autowired;

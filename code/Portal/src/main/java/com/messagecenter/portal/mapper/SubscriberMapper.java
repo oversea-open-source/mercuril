@@ -1,7 +1,7 @@
 package com.messagecenter.portal.mapper;
 
-import com.messagecenter.portal.entity.MessageQueueSubscriber;
-import com.messagecenter.portal.entity.base.PageInfoQuery;
+import com.messagecenter.common.entity.MessageQueueSubscriber;
+import com.messagecenter.common.entity.base.PageInfoQuery;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

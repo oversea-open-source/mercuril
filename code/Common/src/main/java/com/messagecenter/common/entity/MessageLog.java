@@ -1,6 +1,6 @@
-package com.messagecenter.portal.entity;
+package com.messagecenter.common.entity;
 
-import com.messagecenter.portal.entity.base.BaseEntity;
+import com.messagecenter.common.entity.base.BaseEntity;
 import lombok.Data;
 
 import java.io.Serializable;

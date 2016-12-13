@@ -1,6 +1,6 @@
-package com.messagecenter.portal.entity;
+package com.messagecenter.common.entity;
 
-import com.messagecenter.portal.entity.base.BaseEntity;
+import com.messagecenter.common.entity.base.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Jared on 16/12/5.

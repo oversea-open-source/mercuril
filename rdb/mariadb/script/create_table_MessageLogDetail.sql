@@ -1,9 +1,9 @@
 USE mercuil;
 
-CREATE TABLE IF NOT EXISTS MessageLog (
+CREATE TABLE IF NOT EXISTS MessageLogDetail (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT
-	,`messageQueueInfoId` INT UNSIGNED NOT NULL 
-	,`messageRaw` TEXT NOT NULL
+    ,`messageLogId` INT UNSIGNED NOT NULL
+    ,`messageQueueSubscriberId` INT UNSIGNED NOT NULL
 	,`messageStatus` TINYINT UNSIGNED NULL DEFAULT 0
 	,`failedReason` TEXT NULL
 	,`failedRetryCount` TINYINT UNSIGNED NULL
@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS MessageLog (
 	,`inDate` DATETIME(3) NOT NULL 
 	,`lastEditUser` VARCHAR(50) NOT NULL
 	,`lastEditDate` DATETIME(3) NOT NULL
-	,CONSTRAINT PK_MessageLog_id PRIMARY KEY (id)
+	,CONSTRAINT PK_MessageLogDetail_id PRIMARY KEY (id)
 )engine=InnoDB default charset utf8;
 
-CREATE INDEX IX_MessageLog_messageQueueInfoId ON MessageLog(messageQueueInfoId);
+CREATE INDEX IX_MessageLogDetail_messageLogId ON MessageLogDetail(messageLogId);
+CREATE INDEX IX_MessageLogDetail_messageQueueSubscriberId ON MessageLogDetail(messageQueueSubscriberId);

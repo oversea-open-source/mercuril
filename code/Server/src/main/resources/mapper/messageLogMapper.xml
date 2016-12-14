@@ -5,7 +5,7 @@
 
 <mapper namespace="com.messagecenter.server.mapper.MessageLogMapper">
 
-    <insert id="saveMessageLog" parameterType="com.messagecenter.portal.mapper.MessageLogMapper">
+    <insert id="saveMessageLog" parameterType="com.messagecenter.common.entity.MessageLog">
       INSERT INTO MessageLog
         (
          `id`

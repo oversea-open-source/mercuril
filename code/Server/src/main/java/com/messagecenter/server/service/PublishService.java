@@ -11,12 +11,14 @@ import com.messagecenter.server.mapper.MessageQueueInfoMapper;
 import com.messagecenter.server.utils.EncryptUtils;
 import org.apache.http.util.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 /**
  * Created by Jared on 16/12/13.
  */
+@Service
 public class PublishService {
     @Autowired
     MessageQueueInfoMapper messageQueueInfoMapper;

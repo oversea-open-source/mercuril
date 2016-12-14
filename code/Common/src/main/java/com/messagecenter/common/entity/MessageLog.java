@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 public class MessageLog extends BaseEntity implements Serializable {
     private int id;
-    private int messageQueueSubscriberId;
+    private int messageQueueInfoId;
     private String messageRaw;
     private int messageStatus;
     private String failedReason;
@@ -23,5 +23,4 @@ public class MessageLog extends BaseEntity implements Serializable {
      * extend
      */
     private String messageQueueName;
-    private String subscriberApiUrl;
 }

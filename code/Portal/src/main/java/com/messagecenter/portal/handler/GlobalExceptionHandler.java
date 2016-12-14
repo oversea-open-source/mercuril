@@ -2,7 +2,7 @@ package com.messagecenter.portal.handler;
 
 import com.messagecenter.common.entity.base.BaseResponse;
 import com.messagecenter.common.entity.base.StatusCode;
-import com.messagecenter.portal.exception.BusinessException;
+import com.messagecenter.common.exception.BusinessException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;

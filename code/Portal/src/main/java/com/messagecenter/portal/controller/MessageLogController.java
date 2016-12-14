@@ -23,9 +23,8 @@ public class MessageLogController {
     @RequestMapping(value = "/api/MessageLog", method = RequestMethod.GET)
     public BaseResponse<PageInfoResult<MessageLog>> getLogList(@RequestParam(required = false) int pageNum,
                                                                @RequestParam(required = false) int pageSize,
-                                                               @RequestParam(required = false) String subscriberApiUrl,
                                                                @RequestParam(required = false) String messageQueueName) {
-        PageInfoResult<MessageLog> pageInfoResult = service.getLogList(pageNum, pageSize, subscriberApiUrl, messageQueueName);
+        PageInfoResult<MessageLog> pageInfoResult = service.getLogList(pageNum, pageSize, messageQueueName);
         BaseResponse<PageInfoResult<MessageLog>> response = new BaseResponse<>();
         response.setCode(StatusCode.SUCCESS);
         response.setData(pageInfoResult);

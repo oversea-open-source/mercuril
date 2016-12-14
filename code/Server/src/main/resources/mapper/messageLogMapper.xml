@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.messagecenter.server.mapper.MessageLogMapper">
+
+    <insert id="saveMessageLog" parameterType="com.messagecenter.portal.mapper.MessageLogMapper">
+      INSERT INTO MessageLog
+        (
+         `id`
+        ,`messageQueueInfoId`
+        ,`messageRaw`
+        ,`messageStatus`
+        ,`failedReason`
+        ,`failedRetryCount`
+        ,`lastReplayFinishedDate`
+        ,`inUser`
+        ,`inDate`
+        ,`lastEditUser`
+        ,`lastEditDate`
+        )
+        VALUES(
+         #{id}
+        ,#{messageQueueInfoId}
+        ,#{messageRaw}
+        ,#{messageStatus}
+        ,#{failedReason}
+        ,#{failedRetryCount}
+        ,#{lastReplayFinishedDate}
+        ,#{inUser}
+        ,#{inDate}
+        ,#{lastEditUser}
+        ,#{lastEditDate}
+        )
+    </insert>
+
+</mapper>

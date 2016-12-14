@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.messagecenter.server.mapper.MessageQueueInfoMapper">
+
+    <select id="getMessageQueueInfoListCount" resultType="Integer">
+        SELECT count(*) FROM MessageQueueInfo;
+    </select>
+
+    <select id="getMessageQueueInfoByName" parameterType="String"
+            resultType="com.messagecenter.common.entity.MessageQueueInfo">
+        SELECT * FROM MessageQueueInfo
+        WHERE messageQueueName = #{_parameter}
+        LIMIT 1
+    </select>
+
+</mapper>

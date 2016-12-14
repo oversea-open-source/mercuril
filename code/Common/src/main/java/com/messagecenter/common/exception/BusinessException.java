@@ -1,4 +1,4 @@
-package com.messagecenter.portal.exception;
+package com.messagecenter.common.exception;
 
 /**
  * Created by Jared on 16/12/7.

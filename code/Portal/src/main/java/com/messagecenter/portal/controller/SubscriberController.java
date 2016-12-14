@@ -4,7 +4,7 @@ import com.messagecenter.common.entity.MessageQueueSubscriber;
 import com.messagecenter.common.entity.base.BaseResponse;
 import com.messagecenter.common.entity.base.PageInfoResult;
 import com.messagecenter.common.entity.base.StatusCode;
-import com.messagecenter.portal.exception.BusinessException;
+import com.messagecenter.common.exception.BusinessException;
 import com.messagecenter.portal.service.SubscriberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

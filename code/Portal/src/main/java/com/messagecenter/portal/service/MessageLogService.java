@@ -18,7 +18,7 @@ public class MessageLogService {
     @Autowired
     MessageLogMapper messageLogMapper;
 
-    public PageInfoResult<MessageLog> getLogList(Integer pageNum, Integer pageSize, String subscriberApiUrl, String messageQueueName) {
+    public PageInfoResult<MessageLog> getLogList(Integer pageNum, Integer pageSize, String messageQueueName) {
         if (pageNum == null) {
             pageNum = 0;
         }
@@ -27,7 +27,6 @@ public class MessageLogService {
         }
 
         MessageLog query = new MessageLog();
-        query.setSubscriberApiUrl(subscriberApiUrl);
         query.setMessageQueueName(messageQueueName);
 
         PageInfoQuery<MessageLog> pageInfoQuery = new PageInfoQuery<>();

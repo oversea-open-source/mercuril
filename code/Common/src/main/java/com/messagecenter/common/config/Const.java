@@ -1,4 +1,4 @@
-package com.messagecenter.portal.config;
+package com.messagecenter.common.config;
 
 /**
  * Created by Jared on 16/12/7.

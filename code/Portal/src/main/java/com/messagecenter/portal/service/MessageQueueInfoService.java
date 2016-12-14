@@ -1,10 +1,10 @@
 package com.messagecenter.portal.service;
 
-import com.messagecenter.portal.config.Const;
+import com.messagecenter.common.config.Const;
 import com.messagecenter.common.entity.MessageQueueInfo;
 import com.messagecenter.common.entity.base.PageInfoQuery;
 import com.messagecenter.common.entity.base.PageInfoResult;
-import com.messagecenter.portal.exception.BusinessException;
+import com.messagecenter.common.exception.BusinessException;
 import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
 import com.messagecenter.portal.utils.EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;

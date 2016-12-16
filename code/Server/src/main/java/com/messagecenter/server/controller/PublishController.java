@@ -4,7 +4,10 @@ import com.messagecenter.common.entity.PublishMessageInfo;
 import com.messagecenter.common.entity.base.BaseResponse;
 import com.messagecenter.common.entity.base.StatusCode;
 import com.messagecenter.common.exception.BusinessException;
+import com.messagecenter.server.Application;
+import com.messagecenter.server.MQConfiguration;
 import com.messagecenter.server.service.PublishService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class PublishController {
     @Autowired
     PublishService publishService;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @RequestMapping(value = "/api/Publish", method = RequestMethod.POST)
     public BaseResponse publishMessage(@RequestBody PublishMessageInfo publishMessageInfo) throws BusinessException {
         publishService.publishMessage(publishMessageInfo);
         BaseResponse response = new BaseResponse();
         response.setMessage("Message has been published");
+
+        rabbitTemplate.convertAndSend(MQConfiguration.exchangeName, MQConfiguration.queueName, "This is a message");
+
         return response;
     }
 }

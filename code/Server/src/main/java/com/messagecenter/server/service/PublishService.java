@@ -49,4 +49,8 @@ public class PublishService {
             throw new BusinessException(String.format("Message with name '%1$s' not exists", publishMessageInfo.getMessageName()));
         }
     }
+
+    private void sendToMQ() {
+
+    }
 }

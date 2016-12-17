@@ -25,10 +25,6 @@ public class MessageLogController {
                                                                @RequestParam(required = false) int pageSize,
                                                                @RequestParam(required = false) String messageQueueName) {
         PageInfoResult<MessageLog> pageInfoResult = service.getLogList(pageNum, pageSize, messageQueueName);
-        BaseResponse<PageInfoResult<MessageLog>> response = new BaseResponse<>();
-        response.setCode(StatusCode.SUCCESS);
-        response.setData(pageInfoResult);
-
-        return response;
+        return new BaseResponse(pageInfoResult);
     }
 }

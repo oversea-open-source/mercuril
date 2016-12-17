@@ -22,10 +22,7 @@ public class SubscriberController {
     @RequestMapping(value = "/api/Subscriber", method = RequestMethod.GET)
     public BaseResponse<PageInfoResult<MessageQueueSubscriber>> getSubscriberListByMessageQueueId(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer messageQueueId, @RequestParam(required = false) Integer id) {
         PageInfoResult<MessageQueueSubscriber> result = subscriberService.getSubscriberListByMessageQueueId(pageNum, pageSize, messageQueueId, id);
-        BaseResponse<PageInfoResult<MessageQueueSubscriber>> response = new BaseResponse<>();
-        response.setCode(StatusCode.SUCCESS);
-        response.setData(result);
-        return response;
+        return new BaseResponse(result);
     }
 
     @RequestMapping(value = "/api/Subscriber", method = RequestMethod.POST)
@@ -37,7 +34,6 @@ public class SubscriberController {
         }
         BaseResponse response = new BaseResponse();
         response.setMessage("Subscriber has been saved successfully");
-        response.setCode(StatusCode.SUCCESS);
         return response;
     }
 }

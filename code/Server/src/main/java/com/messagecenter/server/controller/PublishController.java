@@ -23,7 +23,6 @@ public class PublishController {
     public BaseResponse publishMessage(@RequestBody PublishMessageInfo publishMessageInfo) throws BusinessException {
         publishService.publishMessage(publishMessageInfo);
         BaseResponse response = new BaseResponse();
-        response.setCode(StatusCode.SUCCESS);
         response.setMessage("Message has been published");
         return response;
     }

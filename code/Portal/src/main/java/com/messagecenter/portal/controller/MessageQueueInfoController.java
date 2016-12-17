@@ -32,17 +32,13 @@ public class MessageQueueInfoController {
         }
         BaseResponse response = new BaseResponse();
         response.setMessage("Message has been saved successfully");
-        response.setCode(StatusCode.SUCCESS);
         return response;
     }
 
     @RequestMapping(value = "/api/MessageQueueInfo", method = RequestMethod.GET)
     public BaseResponse<PageInfoResult<MessageQueueInfo>> getMessageList(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer id) {
         PageInfoResult<MessageQueueInfo> result = messageQueueInfoService.getMessageQueueInfoList(pageNum, pageSize, id);
-        BaseResponse<PageInfoResult<MessageQueueInfo>> response = new BaseResponse<>();
-        response.setData(result);
-        response.setCode(StatusCode.SUCCESS);
-        return response;
+        return new BaseResponse(result);
     }
 
 }

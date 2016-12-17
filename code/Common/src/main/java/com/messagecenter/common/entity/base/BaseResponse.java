@@ -10,6 +10,15 @@ public class BaseResponse<T> implements Serializable {
     private int code;
     private String message;
 
+    public BaseResponse(){
+        this.code = StatusCode.SUCCESS;
+    }
+
+    public BaseResponse(T data) {
+        this();
+        this.data = data;
+    }
+
     public T getData() {
         return data;
     }

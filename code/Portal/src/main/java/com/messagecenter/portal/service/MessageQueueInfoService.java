@@ -6,7 +6,7 @@ import com.messagecenter.common.entity.base.PageInfoQuery;
 import com.messagecenter.common.entity.base.PageInfoResult;
 import com.messagecenter.common.exception.BusinessException;
 import com.messagecenter.portal.mapper.MessageQueueInfoMapper;
-import com.messagecenter.portal.utils.EncryptUtils;
+import com.messagecenter.common.utils.EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

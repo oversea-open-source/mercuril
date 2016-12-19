@@ -72,7 +72,7 @@ public class PublishService {
      */
     private void sendToMQ(MessageLog messageLog) throws Exception {
         Queue queue = new Queue(messageLog.getMessageQueueName());
-        DirectExchange exchange = new DirectExchange(MQConfiguration.exchangeName);
+        DirectExchange exchange = new DirectExchange(Const.EXCHANGE_NAME);
 
         rabbitAdmin.declareQueue(queue);
         rabbitAdmin.declareExchange(exchange);

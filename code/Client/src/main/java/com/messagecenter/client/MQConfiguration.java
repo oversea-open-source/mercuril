@@ -40,14 +40,18 @@ public class MQConfiguration {
 
     @Bean
     SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter messageListenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
+
         List<String> messageQueueNames = messageQueueInfoService.getMessageQueueNameList();
         List<String> existMessageQueue = messageQueueNames.stream().filter(messageQueueName -> QueueUtils.isQueueExist(rabbitTemplate, messageQueueName)).collect(Collectors.toList());
 
-        container.setQueueNames(existMessageQueue.toArray(new String[existMessageQueue.size()]));
-        container.setMessageListener(messageListenerAdapter);
-        return container;
+        if (existMessageQueue.size() > 0) {
+            SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+            container.setConnectionFactory(connectionFactory);
+            container.setQueueNames(existMessageQueue.toArray(new String[existMessageQueue.size()]));
+            container.setMessageListener(messageListenerAdapter);
+            return container;
+        }
+        return null;
     }
 
 

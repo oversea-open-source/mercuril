@@ -10,4 +10,10 @@
         WHERE isActive != 0
     </select>
 
+    <select id="getMessageQueueInfoByID" parameterType="int"
+            resultType="com.messagecenter.common.entity.MessageQueueInfo">
+        SELECT * FROM MessageQueueInfo
+        WHERE id=#{_parameter}
+          AND isActive != 0
+    </select>
 </mapper>

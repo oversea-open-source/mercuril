@@ -1,7 +1,9 @@
 package com.messagecenter.client.controller;
 
 import com.messagecenter.common.entity.base.BaseResponse;
+import com.messagecenter.common.entity.base.StatusCode;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -9,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class IndexController {
-    @RequestMapping("/api/foo")
+    @RequestMapping(value = "/api/foo", method = RequestMethod.POST)
     public BaseResponse foo() {
-        return new BaseResponse();
+        BaseResponse response = new BaseResponse();
+        response.setCode(StatusCode.SUCCESS);
+        return response;
     }
 }

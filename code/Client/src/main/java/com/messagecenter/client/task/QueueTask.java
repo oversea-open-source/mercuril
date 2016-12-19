@@ -2,8 +2,10 @@ package com.messagecenter.client.task;
 
 import com.messagecenter.client.service.MessageQueueInfoService;
 import com.messagecenter.client.utils.QueueUtils;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,11 +24,25 @@ public class QueueTask {
     SimpleMessageListenerContainer simpleMessageListenerContainer;
     @Autowired
     MessageQueueInfoService messageQueueInfoService;
+    @Autowired
+    ConnectionFactory connectionFactory;
+    @Autowired
+    MessageListenerAdapter messageListenerAdapter;
+
 
     @Scheduled(fixedRate = 5000)
     public void refreshListenerContainer() {
         List<String> messageQueueNames = messageQueueInfoService.getMessageQueueNameList();
         List<String> existMessageQueueNames = messageQueueNames.stream().filter(messageQueueName -> QueueUtils.isQueueExist(rabbitTemplate, messageQueueName)).collect(Collectors.toList());
-        simpleMessageListenerContainer.addQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
+        if(existMessageQueueNames.size() > 0) {
+            if(simpleMessageListenerContainer == null) {
+                SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+                container.setConnectionFactory(connectionFactory);
+                container.setQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
+                container.setMessageListener(messageListenerAdapter);
+            }else {
+                simpleMessageListenerContainer.addQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
+            }
+        }
     }
 }

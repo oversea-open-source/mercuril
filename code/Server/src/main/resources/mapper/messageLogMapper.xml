@@ -5,7 +5,7 @@
 
 <mapper namespace="com.messagecenter.server.mapper.MessageLogMapper">
 
-    <insert id="saveMessageLog" parameterType="com.messagecenter.common.entity.MessageLog">
+    <insert id="saveMessageLog" parameterType="com.messagecenter.common.entity.MessageLog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
       INSERT INTO MessageLog
         (
          `id`
@@ -34,5 +34,20 @@
         ,#{lastEditDate}
         )
     </insert>
+    <update id="updateMessageLog" parameterType="com.messagecenter.common.entity.MessageLog">
+        UPDATE MessageLog
+        SET
+         messageQueueInfoId=#{messageQueueInfoId}
+        ,messageRaw=#{messageRaw}
+        ,messageStatus=#{messageStatus}
+        ,failedReason=#{failedReason}
+        ,failedRetryCount=#{failedRetryCount}
+        ,lastReplayFinishedDate=#{lastReplayFinishedDate}
+        ,inUser=#{inUser}
+        ,inDate=#{inDate}
+        ,lastEditUser=#{lastEditUser}
+        ,lastEditDate=#{lastEditDate}
+        WHERE id=#{id}
+    </update>
 
 </mapper>

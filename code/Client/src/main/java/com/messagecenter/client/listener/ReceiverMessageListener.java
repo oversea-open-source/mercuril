@@ -7,7 +7,6 @@ import com.messagecenter.common.config.Const;
 import com.messagecenter.common.entity.MessageLog;
 import com.messagecenter.common.entity.MessageQueueSubscriber;
 import com.messagecenter.common.entity.MessageStatus;
-import com.messagecenter.common.exception.BusinessException;
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +37,7 @@ public class ReceiverMessageListener implements ChannelAwareMessageListener {
 
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
+
         String msgBody = new String(message.getBody(), "UTF-8");
         logger.info("received: " + msgBody);
 
@@ -48,7 +48,7 @@ public class ReceiverMessageListener implements ChannelAwareMessageListener {
 
             callSubscriber(messageLog);
         } else {
-            throw new BusinessException("client received null message or message with invalid id from MQ");
+            logger.error("client received null message or message with invalid id from MQ");
         }
 
     }

@@ -1,4 +1,4 @@
-package com.messagecenter.client.service;
+package com.messagecenter.client.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.messagecenter.client.mapper.MessageLogMapper;
@@ -7,15 +7,17 @@ import com.messagecenter.common.config.Const;
 import com.messagecenter.common.entity.MessageLog;
 import com.messagecenter.common.entity.MessageQueueSubscriber;
 import com.messagecenter.common.entity.MessageStatus;
-import com.messagecenter.common.entity.base.StatusCode;
+import com.messagecenter.common.exception.BusinessException;
+import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +25,9 @@ import java.util.List;
  * Created by Jared on 16/12/19.
  */
 @Component
-public class ReceiveService {
+public class ReceiverMessageListener implements ChannelAwareMessageListener {
 
-    Logger logger = LoggerFactory.getLogger(ReceiveService.class);
+    Logger logger = LoggerFactory.getLogger(ReceiverMessageListener.class);
 
     @Autowired
     ObjectMapper objectMapper;
@@ -34,30 +36,28 @@ public class ReceiveService {
     @Autowired
     SubscriberMapper subscriberMapper;
 
-    public void received(String msg) {
-        System.out.print("received: " + msg);
-        try {
-            MessageLog messageLog = objectMapper.readValue(msg, MessageLog.class);
-            if (messageLog != null && messageLog.getId() > 0) {
+    @Override
+    public void onMessage(Message message, Channel channel) throws Exception {
+        String msgBody = new String(message.getBody(), "UTF-8");
+        logger.info("received: " + msgBody);
 
-                updateStatus(messageLog, MessageStatus.SENDER_RECEIVED, null);
+        MessageLog messageLog = objectMapper.readValue(msgBody, MessageLog.class);
+        if (messageLog != null && messageLog.getId() > 0) {
 
-                callSubscriber(messageLog);
+            updateStatus(messageLog, MessageStatus.SENDER_RECEIVED, null);
 
-            } else {
-                logger.error("client received null message or message with invalid id from MQ");
-            }
-        } catch (IOException e) {
-            logger.error("client received invalid format message from MQ");
-            e.printStackTrace();
+            callSubscriber(messageLog);
+        } else {
+            throw new BusinessException("client received null message or message with invalid id from MQ");
         }
+
     }
 
     private void callSubscriber(MessageLog messageLog) {
         List<MessageQueueSubscriber> subscribers = subscriberMapper.getSubscriberList(messageLog.getMessageQueueInfoId());
         RestTemplate restTemplate = new RestTemplate();
         for (MessageQueueSubscriber subscriber : subscribers) {
-            
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
             HttpEntity<String> entity = new HttpEntity<>(messageLog.getMessageRaw(), headers);
@@ -79,4 +79,6 @@ public class ReceiveService {
         messageLog.setFailedReason(failedReason);
         messageLogMapper.updateMessageLog(messageLog);
     }
+
+
 }

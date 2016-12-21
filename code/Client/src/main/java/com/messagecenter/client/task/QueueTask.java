@@ -2,6 +2,7 @@ package com.messagecenter.client.task;
 
 import com.messagecenter.client.service.MessageQueueInfoService;
 import com.messagecenter.client.utils.QueueUtils;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -38,6 +39,7 @@ public class QueueTask {
             if (simpleMessageListenerContainer == null) {
                 simpleMessageListenerContainer = new SimpleMessageListenerContainer();
                 simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
+//                simpleMessageListenerContainer.setAcknowledgeMode(AcknowledgeMode.MANUAL);
                 simpleMessageListenerContainer.setQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
                 simpleMessageListenerContainer.setMessageListener(messageListenerAdapter);
                 simpleMessageListenerContainer.start();

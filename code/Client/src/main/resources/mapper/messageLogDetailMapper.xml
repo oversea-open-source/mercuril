@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.messagecenter.client.mapper.MessageLogDetailMapper">
+
+    <insert id="saveMessageLogDetail" parameterType="com.messagecenter.common.entity.MessageLogDetail" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO MessageLogDetail
+        (
+        `id`
+        ,`messageLogId`
+        ,`messageQueueSubscriberId`
+        ,`messageStatus`
+        ,`failedReason`
+        ,`failedRetryCount`
+        ,`lastReplayFinishedDate`
+        ,`inUser`
+        ,`inDate`
+        ,`lastEditUser`
+        ,`lastEditDate`
+        )
+        VALUES(
+        #{id}
+        ,#{messageLogId}
+        ,#{messageQueueSubscriberId}
+        ,#{messageStatus}
+        ,#{failedReason}
+        ,#{failedRetryCount}
+        ,#{lastReplayFinishedDate}
+        ,#{inUser}
+        ,#{inDate}
+        ,#{lastEditUser}
+        ,#{lastEditDate}
+        )
+    </insert>
+    <update id="updateMessageLogDetail" parameterType="com.messagecenter.common.entity.MessageLogDetail">
+        UPDATE MessageLogDetail
+        SET
+         messageLogId=#{messageLogId}
+        ,messageQueueSubscriberId=#{messageQueueSubscriberId}
+        ,messageStatus=#{messageStatus}
+        ,failedReason=#{failedReason}
+        ,failedRetryCount=#{failedRetryCount}
+        ,lastReplayFinishedDate=#{lastReplayFinishedDate}
+        ,inUser=#{inUser}
+        ,inDate=#{inDate}
+        ,lastEditUser=#{lastEditUser}
+        ,lastEditDate=#{lastEditDate}
+        WHERE id=#{id}
+    </update>
+
+</mapper>

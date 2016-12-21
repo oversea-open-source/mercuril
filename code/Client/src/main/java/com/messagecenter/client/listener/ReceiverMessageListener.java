@@ -1,10 +1,12 @@
 package com.messagecenter.client.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.messagecenter.client.mapper.MessageLogDetailMapper;
 import com.messagecenter.client.mapper.MessageLogMapper;
 import com.messagecenter.client.mapper.SubscriberMapper;
 import com.messagecenter.common.config.Const;
 import com.messagecenter.common.entity.MessageLog;
+import com.messagecenter.common.entity.MessageLogDetail;
 import com.messagecenter.common.entity.MessageQueueSubscriber;
 import com.messagecenter.common.entity.MessageStatus;
 import com.rabbitmq.client.Channel;
@@ -34,6 +36,8 @@ public class ReceiverMessageListener implements ChannelAwareMessageListener {
     MessageLogMapper messageLogMapper;
     @Autowired
     SubscriberMapper subscriberMapper;
+    @Autowired
+    MessageLogDetailMapper logDetailMapper;
 
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
@@ -58,18 +62,37 @@ public class ReceiverMessageListener implements ChannelAwareMessageListener {
         RestTemplate restTemplate = new RestTemplate();
         for (MessageQueueSubscriber subscriber : subscribers) {
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-            HttpEntity<String> entity = new HttpEntity<>(messageLog.getMessageRaw(), headers);
-            ResponseEntity<String> responseEntity = restTemplate.exchange(subscriber.getSubscriberApiUrl(), HttpMethod.POST, entity, String.class);
-            HttpStatus status = responseEntity.getStatusCode();
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+                HttpEntity<String> entity = new HttpEntity<>(messageLog.getMessageRaw(), headers);
+                ResponseEntity<String> responseEntity = restTemplate.exchange(subscriber.getSubscriberApiUrl(), HttpMethod.POST, entity, String.class);
+                HttpStatus status = responseEntity.getStatusCode();
 
-            if (status.is2xxSuccessful()) {
-                updateStatus(messageLog, MessageStatus.SENT_TO_SUB_SUCCESS, null);
-            } else {
-                updateStatus(messageLog, MessageStatus.SENT_TO_SUB_FAILED, status.value() + " " + responseEntity.getBody());
+                saveLogDetail(status.is2xxSuccessful(), messageLog, subscriber, responseEntity.getStatusCode().getReasonPhrase());
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+                saveLogDetail(false, messageLog, subscriber, e.getMessage());
             }
         }
+    }
+
+    private void saveLogDetail(boolean isSuccess, MessageLog messageLog, MessageQueueSubscriber subscriber, String failedReason) {
+        MessageLogDetail messageLogDetail = new MessageLogDetail();
+
+        messageLogDetail.setMessageStatus(isSuccess ? MessageStatus.SENT_TO_SUB_SUCCESS : MessageStatus.SENT_TO_SUB_FAILED);
+        messageLogDetail.setMessageLogId(messageLog.getId());
+        messageLogDetail.setMessageQueueSubscriberId(subscriber.getId());
+        if (!isSuccess) {
+            messageLogDetail.setFailedReason(failedReason);
+        }
+        messageLogDetail.setLastEditDate(new Date());
+        messageLogDetail.setInDate(new Date());
+        messageLogDetail.setActive(true);
+        messageLogDetail.setInUser(Const.IN_USER_NAME);
+        messageLogDetail.setLastEditUser(Const.IN_USER_NAME);
+
+        logDetailMapper.saveMessageLogDetail(messageLogDetail);
     }
 
     private void updateStatus(MessageLog messageLog, int messageStatus, String failedReason) {

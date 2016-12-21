@@ -1,5 +1,6 @@
 package com.messagecenter.server.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.messagecenter.common.config.Const;
 import com.messagecenter.common.entity.MessageLog;
 import com.messagecenter.common.entity.MessageQueueInfo;
@@ -34,6 +35,8 @@ public class PublishService {
     RabbitAdmin rabbitAdmin;
     @Autowired
     RabbitTemplate rabbitTemplate;
+    @Autowired
+    ObjectMapper objectMapper;
 
     public void publishMessage(PublishMessageInfo publishMessageInfo) throws BusinessException {
         MessageQueueInfo messageQueueInfo = messageQueueInfoMapper.getMessageQueueInfoByName(publishMessageInfo.getMessageName());
@@ -77,7 +80,8 @@ public class PublishService {
         rabbitAdmin.declareQueue(queue);
         rabbitAdmin.declareExchange(exchange);
         rabbitAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(queue.getName()));
-        rabbitTemplate.convertAndSend(exchange.getName(), queue.getName(), messageLog.toString());
+
+        rabbitTemplate.convertAndSend(exchange.getName(), queue.getName(), objectMapper.writeValueAsString(messageLog));
 
         updateStatus(messageLog, MessageStatus.SENT_TO_MQ_SUCCESS, null);
     }

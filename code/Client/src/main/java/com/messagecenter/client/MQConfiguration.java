@@ -43,9 +43,9 @@ public class MQConfiguration {
 
         List<String> messageQueueNames = messageQueueInfoService.getMessageQueueNameList();
         List<String> existMessageQueue = messageQueueNames.stream().filter(messageQueueName -> QueueUtils.isQueueExist(rabbitTemplate, messageQueueName)).collect(Collectors.toList());
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 
         if (existMessageQueue.size() > 0) {
-            SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
             container.setConnectionFactory(connectionFactory);
             container.setQueueNames(existMessageQueue.toArray(new String[existMessageQueue.size()]));
             container.setMessageListener(messageListenerAdapter);

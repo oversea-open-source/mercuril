@@ -34,14 +34,15 @@ public class QueueTask {
     public void refreshListenerContainer() {
         List<String> messageQueueNames = messageQueueInfoService.getMessageQueueNameList();
         List<String> existMessageQueueNames = messageQueueNames.stream().filter(messageQueueName -> QueueUtils.isQueueExist(rabbitTemplate, messageQueueName)).collect(Collectors.toList());
-        if(existMessageQueueNames.size() > 0) {
-            if(simpleMessageListenerContainer == null) {
-                SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-                container.setConnectionFactory(connectionFactory);
-                container.setQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
-                container.setMessageListener(messageListenerAdapter);
-            }else {
-                simpleMessageListenerContainer.addQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
+        if (existMessageQueueNames.size() > 0) {
+            if (simpleMessageListenerContainer == null) {
+                simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+                simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
+                simpleMessageListenerContainer.setQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
+                simpleMessageListenerContainer.setMessageListener(messageListenerAdapter);
+                simpleMessageListenerContainer.start();
+            } else {
+                simpleMessageListenerContainer.setQueueNames(existMessageQueueNames.toArray(new String[existMessageQueueNames.size()]));
             }
         }
     }

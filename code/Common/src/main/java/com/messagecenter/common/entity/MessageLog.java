@@ -17,7 +17,6 @@ public class MessageLog extends BaseEntity implements Serializable {
     private int messageStatus;
     private String failedReason;
     private int failedRetryCount;
-    private Date lastReplayFinishedDate;
 
     /**
      * extend

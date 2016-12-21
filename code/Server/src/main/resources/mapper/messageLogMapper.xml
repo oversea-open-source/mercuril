@@ -5,7 +5,8 @@
 
 <mapper namespace="com.messagecenter.server.mapper.MessageLogMapper">
 
-    <insert id="saveMessageLog" parameterType="com.messagecenter.common.entity.MessageLog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="saveMessageLog" parameterType="com.messagecenter.common.entity.MessageLog" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
       INSERT INTO MessageLog
         (
          `id`
@@ -14,7 +15,6 @@
         ,`messageStatus`
         ,`failedReason`
         ,`failedRetryCount`
-        ,`lastReplayFinishedDate`
         ,`inUser`
         ,`inDate`
         ,`lastEditUser`
@@ -27,7 +27,6 @@
         ,#{messageStatus}
         ,#{failedReason}
         ,#{failedRetryCount}
-        ,#{lastReplayFinishedDate}
         ,#{inUser}
         ,#{inDate}
         ,#{lastEditUser}
@@ -42,12 +41,16 @@
         ,messageStatus=#{messageStatus}
         ,failedReason=#{failedReason}
         ,failedRetryCount=#{failedRetryCount}
-        ,lastReplayFinishedDate=#{lastReplayFinishedDate}
         ,inUser=#{inUser}
         ,inDate=#{inDate}
         ,lastEditUser=#{lastEditUser}
         ,lastEditDate=#{lastEditDate}
         WHERE id=#{id}
     </update>
+    <select id="getMessageLogById" parameterType="int" resultType="com.messagecenter.common.entity.MessageLog">
+      SELECT *
+      FROM MessageLog
+      WHERE id=#{_parameter}
+    </select>
 
 </mapper>

@@ -10,4 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MessageQueueInfoMapper {
     MessageQueueInfo getMessageQueueInfoByName(String messageQueueName);
+
+    MessageQueueInfo getMessageQueueInfoById(int id);
 }

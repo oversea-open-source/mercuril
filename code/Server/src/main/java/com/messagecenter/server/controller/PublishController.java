@@ -13,10 +13,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Jared on 16/12/13.
@@ -34,6 +31,15 @@ public class PublishController {
         publishService.publishMessage(publishMessageInfo);
         BaseResponse response = new BaseResponse();
         response.setMessage("Message has been published");
+
+        return response;
+    }
+
+    @RequestMapping(value = "/api/ResentMQ", method = RequestMethod.GET)
+    public BaseResponse reSentMQ(@RequestParam int logId) throws BusinessException {
+        publishService.reSendMQ(logId);
+        BaseResponse response = new BaseResponse();
+        response.setMessage("Message has been resent");
 
         return response;
     }

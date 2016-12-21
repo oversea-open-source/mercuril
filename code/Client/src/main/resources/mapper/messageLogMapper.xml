@@ -13,7 +13,6 @@
         ,messageStatus=#{messageStatus}
         ,failedReason=#{failedReason}
         ,failedRetryCount=#{failedRetryCount}
-        ,lastReplayFinishedDate=#{lastReplayFinishedDate}
         ,inUser=#{inUser}
         ,inDate=#{inDate}
         ,lastEditUser=#{lastEditUser}

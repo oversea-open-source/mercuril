@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS MessageLog (
 	,`messageStatus` TINYINT UNSIGNED NULL DEFAULT 0
 	,`failedReason` TEXT NULL
 	,`failedRetryCount` TINYINT UNSIGNED NULL
-	,`lastReplayFinishedDate` DATETIME(3) NULL
 	,`inUser` VARCHAR(50) NOT NULL
 	,`inDate` DATETIME(3) NOT NULL 
 	,`lastEditUser` VARCHAR(50) NOT NULL

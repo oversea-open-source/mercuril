@@ -6,4 +6,6 @@ package com.messagecenter.common.config;
 public class Const {
     public static final String EXCHANGE_NAME = "Mercuril-Exchange";
     public static final String IN_USER_NAME = "system";
+
+    public static final int MAX_RETRY_COUNT = 10;
 }

@@ -16,4 +16,11 @@
         LIMIT 1
     </select>
 
+    <select id="getMessageQueueInfoById" parameterType="int"
+            resultType="com.messagecenter.common.entity.MessageQueueInfo">
+        SELECT * FROM MessageQueueInfo
+        WHERE id = #{_parameter}
+        LIMIT 1
+    </select>
+
 </mapper>

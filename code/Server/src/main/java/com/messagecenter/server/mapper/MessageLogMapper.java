@@ -9,5 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MessageLogMapper {
     void saveMessageLog(MessageLog messageLog);
+
     void updateMessageLog(MessageLog messageLog);
+
+    MessageLog getMessageLogById(int id);
 }

@@ -29,6 +29,7 @@ public class IndexController {
         messageLogDetailService.retryLogDetail();
         BaseResponse response = new BaseResponse();
         response.setCode(StatusCode.SUCCESS);
+        response.setMessage("Retry to call subscriber successfully");
         return response;
     }
 
@@ -37,6 +38,7 @@ public class IndexController {
         messageLogDetailService.autoReplayLogDetail();
         BaseResponse response = new BaseResponse();
         response.setCode(StatusCode.SUCCESS);
+        response.setMessage("Replay calling subscriber successfully");
         return response;
     }
 

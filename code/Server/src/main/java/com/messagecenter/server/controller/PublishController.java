@@ -35,9 +35,9 @@ public class PublishController {
         return response;
     }
 
-    @RequestMapping(value = "/api/ResentMQ", method = RequestMethod.GET)
-    public BaseResponse reSentMQ(@RequestParam int logId) throws BusinessException {
-        publishService.reSendMQ(logId);
+    @RequestMapping(value = "/api/retrySendMQ", method = RequestMethod.GET)
+    public BaseResponse retrySendMQ() throws BusinessException {
+        publishService.retrySendMQ();
         BaseResponse response = new BaseResponse();
         response.setMessage("Message has been resent");
 

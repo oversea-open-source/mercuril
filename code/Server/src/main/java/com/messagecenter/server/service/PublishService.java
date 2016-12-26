@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Jared on 16/12/13.
@@ -82,14 +83,24 @@ public class PublishService {
     }
 
     /**
-     * Retry sending message to MQ
+     * get messages that need to be retried and re-send them to MQ
      *
-     * @param logId message log's id
      * @throws BusinessException
      */
-    public void reSendMQ(int logId) throws BusinessException {
+    public void retrySendMQ() throws BusinessException {
+        List<MessageLog> messageLogList = messageLogMapper.getMessageLogNeedRetry(MessageStatus.SENT_TO_MQ_FAILED, Const.MAX_RETRY_COUNT);
+        for (MessageLog messageLog : messageLogList) {
+            reSendMQ(messageLog);
+        }
+    }
 
-        MessageLog messageLog = messageLogMapper.getMessageLogById(logId);
+    /**
+     * Retry sending message to MQ
+     *
+     * @throws BusinessException
+     */
+    public void reSendMQ(MessageLog messageLog) throws BusinessException {
+
         MessageQueueInfo messageQueueInfo = messageQueueInfoMapper.getMessageQueueInfoById(messageLog.getMessageQueueInfoId());
         messageLog.setMessageQueueName(messageQueueInfo.getMessageQueueName());
 

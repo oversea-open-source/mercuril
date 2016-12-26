@@ -52,5 +52,13 @@
       FROM MessageLog
       WHERE id=#{_parameter}
     </select>
+    <select id="getMessageLogNeedRetry" parameterType="map" resultType="com.messagecenter.common.entity.MessageLog">
+        SELECT *
+        FROM MessageLog
+        WHERE messageStatus = #{sendToMQFailedStatus}
+          AND <![CDATA[
+                failedRetryCount < #{maxRetryCount}
+              ]]>
+    </select>
 
 </mapper>

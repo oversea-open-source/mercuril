@@ -69,7 +69,7 @@ public class ReceiverMessageListener implements ChannelAwareMessageListener {
                 ResponseEntity<String> responseEntity = restTemplate.exchange(subscriber.getSubscriberApiUrl(), HttpMethod.POST, entity, String.class);
                 HttpStatus status = responseEntity.getStatusCode();
 
-                saveLogDetail(status.is2xxSuccessful(), messageLog, subscriber, responseEntity.getStatusCode().getReasonPhrase());
+                saveLogDetail(status.is2xxSuccessful(), messageLog, subscriber, null);
             } catch (Exception e) {
                 logger.error(e.getMessage());
                 saveLogDetail(false, messageLog, subscriber, e.getMessage());
@@ -83,10 +83,9 @@ public class ReceiverMessageListener implements ChannelAwareMessageListener {
         messageLogDetail.setMessageStatus(isSuccess ? MessageStatus.SENT_TO_SUB_SUCCESS : MessageStatus.SENT_TO_SUB_FAILED);
         messageLogDetail.setMessageLogId(messageLog.getId());
         messageLogDetail.setMessageQueueSubscriberId(subscriber.getId());
-        if (!isSuccess) {
-            messageLogDetail.setFailedReason(failedReason);
-        }
+        messageLogDetail.setFailedReason(failedReason);
         messageLogDetail.setLastEditDate(new Date());
+        messageLogDetail.setLastReplayFinishedDate(new Date());
         messageLogDetail.setInDate(new Date());
         messageLogDetail.setActive(true);
         messageLogDetail.setInUser(Const.IN_USER_NAME);

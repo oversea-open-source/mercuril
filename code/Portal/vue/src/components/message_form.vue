@@ -144,12 +144,25 @@
 
           }
         },
+        watch:{
+          'initMessage.maxPendingLength':function(newValue, oldValue){
+            if(newValue === ''){
+                this.initMessage.maxPendingLength = null;
+            }
+          },
+          'initMessage.maxSize':function(newValue, oldValue){
+            if(newValue === ''){
+                this.initMessage.maxSize = null;
+            }
+          }
+        },
         computed:{
           pwdPlaceholder(){
             return this.isEdit?'Change publish password':'Publish password'
           }
         },
     }
+
 
 
 

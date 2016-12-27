@@ -11,7 +11,7 @@
           <template v-if="isEdit">
             <el-tabs @tab-click="tabClick" class="message-tab">
               <el-tab-pane label="Edit" name="edit">
-                <message-form :initMessage="initMessage" :isEdit="isEdit">
+                <message-form ref="messageForm" :initMessage="initMessage" :isEdit="isEdit">
                 </message-form>
               </el-tab-pane>
               <el-tab-pane label="Subscriber" name="subscriber">

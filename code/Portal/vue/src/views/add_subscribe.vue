@@ -20,8 +20,11 @@
             </el-form-item>
             <el-form-item label="Auto Replay?" prop="isAutoReplay">
               <el-switch on-text="" off-text="" v-model="initSubscribe.isAutoReplay"></el-switch>
-              <el-input v-if="initSubscribe.isAutoReplay" type="number" v-model="initSubscribe.autoReplayInterval"
-                        placeholder="Interval before next replay"></el-input>
+              <el-form-item prop="autoReplayInterval" ref="autoReplayIntervalFormItem">
+                <el-input v-if="initSubscribe.isAutoReplay" type="number"
+                          v-model.number="initSubscribe.autoReplayInterval"
+                          placeholder="Interval before next replay"></el-input>
+              </el-form-item>
             </el-form-item>
             <el-form-item label="Failed Notify Email:" prop="failedNotifyEmail">
               <el-input v-model="initSubscribe.failedNotifyEmail" placeholder="Failed Notify Email"></el-input>
@@ -42,7 +45,6 @@
 
 
 
-
 </style>
 <script>
     export default{
@@ -56,14 +58,17 @@
               },
               rules:{
                 subscriberApiUrl:[
+                  {type:'url', message:'Must be a valid URL.', trigger:'blur'},
                   {required:true, message:'Subscriber\'s API URL is required', trigger:'blur'},
                   {min:1, max:500, message:'Length of Subscriber\'s API URL must between 1 to 500 characters', trigger:'blur'}
                 ],
                 retryCount:[
+                  {type:'integer', required:true, message:'Retry count is required', trigger:'blur'},
                   {type:'integer', message:'Retry count must be a integer'},
                   {type:'integer', min:0, max:20, message:'Retry count must between 0 to 20', trigger:'blur'}
                 ],
                 autoReplayInterval:[
+                  {type:'integer', required:true, message:'Auto replay interval is required'},
                   {type:'integer', message:'Auto replay interval must be a integer'},
                   {type:'integer', min:5, max:60000, message:'Auto replay interval must between 5 to 648000', trigger:'blur'}
                 ],
@@ -80,9 +85,9 @@
                 id:0,
                 messageQueueId:parseInt(this.$route.params.messageQueueId, 10),
                 subscriberApiUrl:null,
-                retryCount:null,
+                retryCount:5,
                 isAutoReplay:false,
-                autoReplayInterval:null,
+                autoReplayInterval:30,
                 failedNotifyEmail:null
               };
           },
@@ -148,16 +153,15 @@
 
         },
         watch: {
-          '$route':'fetchData'
+          '$route':'fetchData',
+          'initSubscribe.isAutoReplay':function(oldValue, newValue){
+              if(newValue){
+                this.initSubscribe.autoReplayInterval = 30;
+              }
+              this.$refs.addSubscribeForm.validate()
+          }
         }
     }
-
-
-
-
-
-
-
 
 
 </script>

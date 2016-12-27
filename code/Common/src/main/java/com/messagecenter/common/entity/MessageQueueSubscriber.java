@@ -22,7 +22,7 @@ public class MessageQueueSubscriber extends BaseEntity implements Serializable {
     @NotBlank(message = "Subscriber's API URL is required")
     @Length(min = 1, max = 500, message = "Length of Subscriber's API URL must between 1 to 500 characters")
     private String subscriberApiUrl;
-    @Range(min = 0, max = 20, message = "Retry count must between 0 to 20")
+    @Range(min = 1, max = 20, message = "Retry count must between 1 to 20")
     private int retryCount;
     @Getter(AccessLevel.NONE)
     private boolean isAutoReplay;

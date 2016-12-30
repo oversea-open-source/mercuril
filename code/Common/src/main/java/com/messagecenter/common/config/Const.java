@@ -11,4 +11,6 @@ public class Const {
 
     public static final String CLIENT_HOST = "http://localhost:8083";
     public static final String SERVER_HOST = "http://localhost:8082";
+
+    public static final int DEFAULT_PAGE_SIZE = 10;
 }

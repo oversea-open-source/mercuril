@@ -1,5 +1,6 @@
 package com.messagecenter.common.entity.base;
 
+import com.messagecenter.common.config.Const;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ public class PageInfo implements Serializable {
 
     public int getPageSize() {
         if (pageSize == 0) {
-            return 10;
+            return Const.DEFAULT_PAGE_SIZE;
         } else {
             return pageSize;
         }

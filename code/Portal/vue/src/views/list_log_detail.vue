@@ -3,22 +3,18 @@
     <template slot="content">
       <el-breadcrumb separator="/" class="breadcrumb">
         <el-breadcrumb-item :to="{ path: '/' }">Index</el-breadcrumb-item>
-        <el-breadcrumb-item>Message Log</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/messagelog' }">Message Log</el-breadcrumb-item>
+        <el-breadcrumb-item>Call Subscriber Log</el-breadcrumb-item>
       </el-breadcrumb>
       <div>
-        <el-table :data="logList" v-loading:body="loading" emptyText="There is no available message log">
+        <el-table :data="logDetailList" v-loading:body="loading"  emptyText="There is no available call subscriber log">
           <el-table-column
-            inline-template
+            width="100"
+            prop="id"
             label="ID">
-            <router-link :to="'messagelog/' + row.id">{{row.id}}</router-link>
           </el-table-column>
           <el-table-column
-            width="200"
-            prop="messageQueueName"
-            label="Message Queue Name">
-          </el-table-column>
-          <el-table-column
-            prop="subscriberApiUrl"
+            prop="messageQueueSubscriber.subscriberApiUrl"
             label="Subscriber API URL">
           </el-table-column>
           <el-table-column
@@ -59,17 +55,13 @@
   .paginate-row{
     padding:10px
   }
-
-
-
-
 </style>
 <script>
 
   export default {
     data(){
       return {
-        logList:[],
+        logDetailList:[],
         currentPageNum:1,
         currentPageSize:10,
         totalCount:0,
@@ -88,10 +80,10 @@
      },
      requestData(){
       this.loading = true;
-      this.$http.get(`/api/MessageLog?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}`).then((response)=>{
+      this.$http.get(`/api/MessageLogDetail?pageNum=${this.currentPageNum}&pageSize=${this.currentPageSize}&messageLogId=${this.$route.params.id}`).then((response)=>{
         this.loading = false;
         if(response.body.code === 0){
-          this.logList = response.body.data.list;
+          this.logDetailList = response.body.data.list;
           this.totalCount=response.body.data.totalCount;
         }else{
           this.$message({
@@ -111,10 +103,6 @@
         this.requestData();
     }
   }
-
-
-
-
 
 
 </script>

@@ -1,5 +1,6 @@
 package com.messagecenter.portal.service;
 
+import com.messagecenter.common.config.Const;
 import com.messagecenter.common.entity.MessageLog;
 import com.messagecenter.common.entity.base.PageInfoQuery;
 import com.messagecenter.common.entity.base.PageInfoResult;
@@ -23,7 +24,7 @@ public class MessageLogService {
             pageNum = 0;
         }
         if (pageSize == null) {
-            pageSize = 0;
+            pageSize = Const.DEFAULT_PAGE_SIZE;
         }
 
         MessageLog query = new MessageLog();

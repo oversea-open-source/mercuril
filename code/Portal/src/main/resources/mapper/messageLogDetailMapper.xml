@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.messagecenter.portal.mapper.MessageLogDetailMapper">
+
+    <resultMap id="messageLogDetailWithLog" type="com.messagecenter.common.entity.MessageLogDetail" autoMapping="true">
+        <id column="id" property="id"/>
+        <association property="messageLog" javaType="com.messagecenter.common.entity.MessageLog" autoMapping="true"
+                     columnPrefix="l_">
+        </association>
+        <association property="messageQueueSubscriber"
+                     javaType="com.messagecenter.common.entity.MessageQueueSubscriber" autoMapping="true"
+                     columnPrefix="s_">
+        </association>
+    </resultMap>
+
+    <select id="getMessageLogDetailCount" resultType="Integer">
+        SELECT count(*) FROM MessageLogDetail;
+    </select>
+
+    <select id="getMessageLogDetailList" parameterType="com.messagecenter.common.entity.base.PageInfoQuery"
+            resultMap="messageLogDetailWithLog">
+        SELECT d.*,
+        l.id as l_id,
+        l.messageQueueInfoId as l_messageQueueInfoId,
+        l.messageRaw as l_messageRaw,
+        l.messageStatus as l_messageStatus,
+        l.failedReason as l_failedReason,
+        l.failedRetryCount as l_failedRetryCount,
+        l.inUser as l_inUser,
+        l.inDate as l_inDate,
+        l.lastEditUser as l_lastEditUser,
+        l.lastEditDate as l_lastEditDate,
+        s.id as s_id,
+        s.messageQueueId as s_messageQueueId,
+        s.subscriberApiUrl as s_subscriberApiUrl,
+        s.retryCount as s_retryCount,
+        s.isAutoReplay as s_isAutoReplay,
+        s.autoReplayInterval as s_autoReplayInterval,
+        s.failedNotifyEmail as s_failedNotifyEmail,
+        s.isActive as s_isActive,
+        s.inUser as s_inUser,
+        s.inDate as s_inDate,
+        s.lastEditUser as s_lastEditUser,
+        s.lastEditDate as s_lastEditDate
+        FROM MessageLogDetail d
+        INNER JOIN MessageLog l
+        ON d.messageLogId = l.id
+        INNER JOIN MessageQueueSubscriber s
+        ON d.messageQueueSubscriberId = s.id
+        <where>
+            <if test="query != null and query.messageLogId != 0">
+                d.messageLogId = #{query.messageLogId}
+            </if>
+        </where>
+        ORDER BY d.id
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+</mapper>

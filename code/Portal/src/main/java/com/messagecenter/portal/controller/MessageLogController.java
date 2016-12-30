@@ -21,10 +21,10 @@ public class MessageLogController {
     MessageLogService service;
 
     @RequestMapping(value = "/api/MessageLog", method = RequestMethod.GET)
-    public BaseResponse<PageInfoResult<MessageLog>> getLogList(@RequestParam(required = false) int pageNum,
-                                                               @RequestParam(required = false) int pageSize,
+    public BaseResponse<PageInfoResult<MessageLog>> getLogList(@RequestParam(required = false) Integer pageNum,
+                                                               @RequestParam(required = false) Integer pageSize,
                                                                @RequestParam(required = false) String messageQueueName) {
         PageInfoResult<MessageLog> pageInfoResult = service.getLogList(pageNum, pageSize, messageQueueName);
-        return new BaseResponse(pageInfoResult);
+        return new BaseResponse<>(pageInfoResult);
     }
 }

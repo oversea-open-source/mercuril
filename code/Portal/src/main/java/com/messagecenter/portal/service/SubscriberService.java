@@ -25,7 +25,7 @@ public class SubscriberService {
             pageNum = 0;
         }
         if (pageSize == null) {
-            pageSize = 0;
+            pageSize = Const.DEFAULT_PAGE_SIZE;
         }
         if (messageQueueID == null) {
             messageQueueID = 0;

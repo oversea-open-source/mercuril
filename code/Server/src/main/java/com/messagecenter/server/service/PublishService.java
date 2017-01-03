@@ -53,9 +53,9 @@ public class PublishService {
     public void publishMessage(PublishMessageInfo publishMessageInfo) throws BusinessException {
         MessageQueueInfo messageQueueInfo = messageQueueInfoMapper.getMessageQueueInfoByName(publishMessageInfo.getMessageName());
         if (messageQueueInfo != null) {
-            String publishPassword = publishMessageInfo.getPublishPassword();
+            String publishPassword = messageQueueInfo.getPublishPassword();
             if (!TextUtils.isEmpty(publishPassword)) {
-                if (!EncryptUtils.match(publishPassword, messageQueueInfo.getPublishPassword())) {
+                if (TextUtils.isEmpty(publishMessageInfo.getPublishPassword()) || !EncryptUtils.match(publishMessageInfo.getPublishPassword(), publishPassword)) {
                     throw new BusinessException("Publish password is incorrect");
                 }
             }

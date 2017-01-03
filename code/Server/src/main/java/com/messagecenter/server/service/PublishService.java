@@ -60,7 +60,7 @@ public class PublishService {
                 }
             }
             MessageLog messageLog = new MessageLog();
-            messageLog.setMessageQueueName(publishMessageInfo.getMessageName());
+            messageLog.setMessageQueueName(messageQueueInfo.getMessageQueueName());
             messageLog.setMessageRaw(publishMessageInfo.getMessageBody());
             messageLog.setMessageQueueInfoId(messageQueueInfo.getId());
             messageLog.setMessageStatus(MessageStatus.RECEIVED);

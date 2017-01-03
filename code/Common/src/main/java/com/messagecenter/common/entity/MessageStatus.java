@@ -16,4 +16,32 @@ public class MessageStatus {
      */
     public static final int SENT_TO_SUB_SUCCESS = 4;
     public static final int SENT_TO_SUB_FAILED = 5;
+
+    public static String getMessageStatusDescription(int messageStatus) {
+        String messageStatusDescription;
+        switch (messageStatus) {
+            case RECEIVED:
+                messageStatusDescription = "Received";
+                break;
+            case SENT_TO_MQ_SUCCESS:
+                messageStatusDescription = "Sent to MQ Success";
+                break;
+            case SENT_TO_MQ_FAILED:
+                messageStatusDescription = "Sent to MQ Failed";
+                break;
+            case SENDER_RECEIVED:
+                messageStatusDescription = "Sender Received";
+                break;
+            case SENT_TO_SUB_SUCCESS:
+                messageStatusDescription = "Sent to Subscriber Success";
+                break;
+            case SENT_TO_SUB_FAILED:
+                messageStatusDescription = "Sent to Subscriber Failed";
+                break;
+            default:
+                messageStatusDescription = "Unknown status";
+        }
+
+        return messageStatusDescription;
+    }
 }

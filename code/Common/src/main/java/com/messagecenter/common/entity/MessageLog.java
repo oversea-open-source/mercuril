@@ -1,7 +1,9 @@
 package com.messagecenter.common.entity;
 
 import com.messagecenter.common.entity.base.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,4 +24,11 @@ public class MessageLog extends BaseEntity implements Serializable {
      * extend
      */
     private String messageQueueName;
+
+    @Getter(AccessLevel.NONE)
+    private String messageStatusDescription;
+
+    public String getMessageStatusDescription() {
+        return MessageStatus.getMessageStatusDescription(messageStatus);
+    }
 }

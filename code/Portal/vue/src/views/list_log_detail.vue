@@ -7,9 +7,9 @@
         <el-breadcrumb-item>Call Subscriber Log</el-breadcrumb-item>
       </el-breadcrumb>
       <div>
-        <el-table :data="logDetailList" v-loading:body="loading"  emptyText="There is no available call subscriber log">
+        <el-table :data="logDetailList" v-loading:body="loading" emptyText="There is no available call subscriber log">
           <el-table-column
-            width="100"
+            width="60"
             prop="id"
             label="ID">
           </el-table-column>
@@ -18,8 +18,8 @@
             label="Subscriber API URL">
           </el-table-column>
           <el-table-column
-            width="100"
-            prop="messageStatus"
+            width="220"
+            prop="messageStatusDescription"
             label="Status">
           </el-table-column>
           <el-table-column
@@ -55,6 +55,16 @@
   .paginate-row{
     padding:10px
   }
+
+
+
+
+
+
+
+
+
+
 </style>
 <script>
 
@@ -103,6 +113,16 @@
         this.requestData();
     }
   }
+
+
+
+
+
+
+
+
+
+
 
 
 </script>

@@ -9,6 +9,7 @@
         <el-table :data="logList" v-loading:body="loading" emptyText="There is no available message log">
           <el-table-column
             inline-template
+            width="60"
             label="ID">
             <router-link :to="'messagelog/' + row.id">{{row.id}}</router-link>
           </el-table-column>
@@ -18,12 +19,8 @@
             label="Message Queue Name">
           </el-table-column>
           <el-table-column
-            prop="subscriberApiUrl"
-            label="Subscriber API URL">
-          </el-table-column>
-          <el-table-column
-            width="100"
-            prop="messageStatus"
+            width="160"
+            prop="messageStatusDescription"
             label="Status">
           </el-table-column>
           <el-table-column

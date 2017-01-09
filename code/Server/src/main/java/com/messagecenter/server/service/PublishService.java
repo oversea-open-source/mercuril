@@ -59,6 +59,16 @@ public class PublishService {
                     throw new BusinessException("Publish password is incorrect");
                 }
             }
+
+            String body = publishMessageInfo.getMessageBody();
+            if (TextUtils.isEmpty(body)) {
+                throw new BusinessException("Message body can not be empty");
+            }
+
+            if (body.getBytes().length / 1024 > messageQueueInfo.getMaxSize()) {
+                throw new BusinessException("Message body can not larger than " + messageQueueInfo.getMaxSize() + "KB");
+            }
+
             MessageLog messageLog = new MessageLog();
             messageLog.setMessageQueueName(messageQueueInfo.getMessageQueueName());
             messageLog.setMessageRaw(publishMessageInfo.getMessageBody());

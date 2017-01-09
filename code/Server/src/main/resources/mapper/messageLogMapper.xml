@@ -47,10 +47,19 @@
         ,lastEditDate=#{lastEditDate}
         WHERE id=#{id}
     </update>
-    <select id="getMessageLogById" parameterType="int" resultType="com.messagecenter.common.entity.MessageLog">
-      SELECT *
-      FROM MessageLog
-      WHERE id=#{_parameter}
+    <select id="getMessageLog" parameterType="com.messagecenter.common.entity.MessageLog"
+            resultType="com.messagecenter.common.entity.MessageLog">
+        SELECT *
+        FROM MessageLog
+        <where>
+            <if test="messageQueueInfoId != 0">
+                AND messageQueueInfoId=#{messageQueueInfoId}
+            </if>
+            <if test="messageStatus >= 0">
+                AND messageStatus!=#{messageStatus}
+            </if>
+        </where>
+
     </select>
     <select id="getMessageLogNeedRetry" parameterType="map" resultType="com.messagecenter.common.entity.MessageLog">
         SELECT *
@@ -58,7 +67,8 @@
         WHERE messageStatus = #{sendToMQFailedStatus}
           AND <![CDATA[
                 failedRetryCount < #{maxRetryCount}
-              ]]>
+
+        ]]>
     </select>
 
 </mapper>

@@ -69,6 +69,14 @@ public class PublishService {
                 throw new BusinessException("Message body can not larger than " + messageQueueInfo.getMaxSize() + "KB");
             }
 
+            MessageLog logQuery = new MessageLog();
+            logQuery.setMessageQueueInfoId(messageQueueInfo.getId());
+            logQuery.setMessageStatus(MessageStatus.SENDER_RECEIVED);
+            List<MessageLog> pendingMessages = messageLogMapper.getMessageLog(logQuery);
+            if (messageQueueInfo.getMaxPendingLength() != null && pendingMessages.size() >= messageQueueInfo.getMaxPendingLength()) {
+                throw new BusinessException("count of pending message is equal or larger than max pending length " + messageQueueInfo.getMaxPendingLength());
+            }
+
             MessageLog messageLog = new MessageLog();
             messageLog.setMessageQueueName(messageQueueInfo.getMessageQueueName());
             messageLog.setMessageRaw(publishMessageInfo.getMessageBody());

@@ -1,6 +1,7 @@
 package com.messagecenter.server.mapper;
 
 import com.messagecenter.common.entity.MessageLog;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,5 +18,5 @@ public interface MessageLogMapper {
 
     List<MessageLog> getMessageLogNeedRetry(@Param("sendToMQFailedStatus") int sendToMQFailedStatus, @Param("maxRetryCount") int maxRetryCount);
 
-    MessageLog getMessageLogById(int id);
+    List<MessageLog> getMessageLog(MessageLog query);
 }

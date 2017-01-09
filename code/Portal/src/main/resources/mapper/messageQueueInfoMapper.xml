@@ -17,7 +17,7 @@
                 id = #{query.id}
             </if>
             <if test="query != null and query.messageQueueName != null and !''.equals(query.messageQueueName.trim())">
-                messageQueueName = #{query.messageQueueName}
+                AND messageQueueName = #{query.messageQueueName}
             </if>
         </where>
         ORDER BY id

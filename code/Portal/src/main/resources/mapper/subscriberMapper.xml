@@ -22,10 +22,10 @@
                 id = #{query.id}
             </if>
             <if test="query != null and query.messageQueueId != 0">
-                messageQueueId = #{query.messageQueueId}
+                AND messageQueueId = #{query.messageQueueId}
             </if>
             <if test="query != null and query.subscriberApiUrl != null and !''.equals(query.subscriberApiUrl.trim())">
-                subscriberApiUrl = #{query.subscriberApiUrl}
+                AND subscriberApiUrl = #{query.subscriberApiUrl}
             </if>
         </where>
         ORDER BY id
